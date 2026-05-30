@@ -21,6 +21,8 @@ independent project and are **not affiliated with Sony, SonyLIV, ReVanced, or th
 | **Disable AppsFlyer tracking** | Disables AppsFlyer attribution and event tracking by forcing `isAppsFlyerSupported()` to false. | ✅ Applies cleanly |
 | **Disable Firebase tracking** | Disables Firebase Analytics, Crashlytics and Performance collection via manifest flags. Push notifications are unaffected. | ✅ Applies cleanly |
 | **Disable forced update** | Removes the forced ("immediate") and optional ("flexi") "update available" popup shown on the home screen. | ✅ Applies cleanly |
+| **Change app name** *(opt-in)* | Renames the app shown under the launcher icon. Editable in patch options (**App name**, pre-filled `Sony LIV`). | ✅ Verified |
+| **Change package name** *(opt-in)* | Renames the package so the patched app installs alongside the original, rewriting provider authorities. Editable in patch options (**Package name**, pre-filled `com.sonyliv.chiggi`). | ✅ Verified |
 
 All four patches are verified to **resolve and apply** against `com.sonyliv` 6.23.1 using `morphe-cli`.
 Runtime behaviour should still be confirmed on a device.
@@ -42,7 +44,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
 - Add as a custom source in Morphe Manager using this repository URL:
   `https://github.com/durgesh0505/chiggi_morphe_patches`
 - Or download the bundle directly:
-  [`patches-1.1.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.2.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK with Morphe, then sideload the result onto your device
 (SonyLIV is a split APK; Morphe handles merging and signing).
@@ -69,8 +71,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.1.0.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.1.0.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.2.0.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.2.0.mpp -o out.apk base.apk
 ```
 
 ## 📜 License
