@@ -144,3 +144,9 @@ local.properties
 # Build output bundles
 *.mpp
 *.mpe
+
+# Signing keystores (never commit)
+*.keystore
+*.jks
+# Generated patch options
+options.json

@@ -49,6 +49,22 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
 Patch the SonyLIV Android TV APK with Morphe, then sideload the result onto your device
 (SonyLIV is a split APK; Morphe handles merging and signing).
 
+### Re-patching an APKM locally (helper script)
+
+`scripts/repatch_sonyliv.sh` patches a SonyLIV Android TV `.apkm` with this patch set
+(merging splits into one universal APK), applies the app-name / package-name options, and
+signs it with a keystore:
+
+```bash
+./scripts/repatch_sonyliv.sh path/to/sonyliv.apkm
+# or run with no argument to pick the .apkm interactively
+```
+
+Override the defaults with environment variables, e.g.
+`APP_NAME="My LIV" PACKAGE_NAME=com.sonyliv.custom KEYSTORE=./my.keystore ./scripts/repatch_sonyliv.sh app.apkm`.
+The script uses a locally built bundle if present, otherwise downloads the latest release.
+Requires JDK 17+, the Android SDK, and [morphe-cli](https://github.com/MorpheApp/morphe-cli).
+
 ## 🛠️ Building from source
 
 Requirements: JDK 17+ and the Android SDK (compileSdk 36).
