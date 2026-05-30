@@ -24,7 +24,7 @@ independent project and are **not affiliated with Sony, SonyLIV, ReVanced, or th
 | **Change app name** *(opt-in)* | Renames the app shown under the launcher icon. Editable in patch options (**App name**, pre-filled `Sony LIV`). | ✅ Verified |
 | **Change package name** *(opt-in)* | Renames the package so the patched app installs alongside the original, rewriting provider authorities. Editable in patch options (**Package name**, pre-filled `com.sonyliv.chiggi`). | ✅ Verified |
 
-All four patches are verified to **resolve and apply** against `com.sonyliv` 6.23.1 using `morphe-cli`.
+All patches are verified to **resolve and apply** against `com.sonyliv` 6.23.1 using `morphe-cli`.
 Runtime behaviour should still be confirmed on a device.
 
 ### Notes & limitations
