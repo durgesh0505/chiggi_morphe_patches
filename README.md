@@ -1,99 +1,81 @@
-# 👋🧩 Morphe Patches template
+# 🧩 Chiggi SonyLIV Patches
 
-Template repository for Morphe Patches.
+Third-party [Morphe](https://morphe.software) patches for the **SonyLIV (Android TV)** app.
 
 ## ❓ About
 
-This is a template to create a new Morphe Patches repository.
-TODO: Update this about section with a brief introduction/summary about this repo and what it offers.
+A small set of patches that modify the SonyLIV Android TV app at the bytecode/resource level,
+applied with [Morphe](https://github.com/MorpheApp) (a fork of ReVanced). These patches are an
+independent project and are **not affiliated with Sony, SonyLIV, ReVanced, or the Morphe project**.
 
-## 🩹 Patches list
+- **Target app:** `com.sonyliv`
+- **Tested version:** `6.23.1` (Android TV / leanback build)
+- **Player:** AndroidX Media3 (ExoPlayer)
 
-<!-- PATCHES_START EXPANDED -->
+## 🩹 Patches
 
-<!-- Do not modify this section by hand. The patch list is generated when release.yml creates a new release.
-     
-     If you wish for the patches list to be collapsed, then remove the word 'EXPANDED' from the comment tag above.
+| Patch | What it does | Status |
+|-------|--------------|--------|
+| **Auto skip intro and recap** | Automatically skips intro, recap and song segments as soon as the "Skip" button would appear, without waiting for a tap. | ✅ Applies cleanly; pending on-device confirmation |
+| **Disable AppsFlyer tracking** | Disables AppsFlyer attribution and event tracking by forcing `isAppsFlyerSupported()` to false. | ✅ Applies cleanly |
+| **Disable Firebase tracking** | Disables Firebase Analytics, Crashlytics and Performance collection via manifest flags. Push notifications are unaffected. | ✅ Applies cleanly |
+| **Disable forced update** | Removes the forced ("immediate") and optional ("flexi") "update available" popup shown on the home screen. | ✅ Applies cleanly |
 
-     If you wish to manually keep this list updated then remove the PATCHES_START and PATCHES_END 
-     comment blocks entirely. -->
+All four patches are verified to **resolve and apply** against `com.sonyliv` 6.23.1 using `morphe-cli`.
+Runtime behaviour should still be confirmed on a device.
 
-#### A list of your patches will be automatically shown here after your first patches release is created.
+### Not included (yet)
 
-&nbsp;
+- **Remove ads** — SonyLIV uses three server-side ad-insertion systems (Google IMA DAI, AWS
+  MediaTailor, VisualOn SSAI). Server-stitched ads (especially live) cannot be removed client-side.
+  A client-flag approach (forcing MediaTailor off) is under investigation and needs device testing
+  before it is shipped, as it may affect live playback.
+- **CleverTap** is intentionally **not** disabled. It is dependency-injected and drives in-app
+  overlays / native-display UI, so disabling it would crash parts of the app. "Disable analytics"
+  here covers AppsFlyer and the Firebase stack only.
 
-## 🚀 Get started
+## 📲 How to use
 
-To start using this template, follow these steps:
+These patches are distributed as a `.mpp` bundle for Morphe Manager.
 
-1. [Setup](https://github.com/MorpheApp/morphe-documentation/blob/main/docs/morphe-development/README.md) your development environment including adding a GitHub PAT as described [here](https://github.com/MorpheApp/morphe-patcher/blob/main/docs/2_1_setup.md#-prepare-the-environment).
-2. [Create a new repository using this template](https://github.com/new?template_name=morphe-patches-template&template_owner=MorpheApp)
-3. Set up the [build.gradle.kts](patches/build.gradle.kts) file (Specifically, the 
-   [group of the project](patches/build.gradle.kts#L1), and the [About](patches/build.gradle.kts#L5-L11))
-4. Set up the [README.md](README.md) file[^1] (e.g, title, description, license, 
-   summary of the patches that are included in the repository), the [issue templates](.github/ISSUE_TEMPLATE)[^2]
-   and the [contribution guidelines](CONTRIBUTING.md)[^3].
-5. Choose a name for your patches project. Keep in mind you must use a unique name that does not 
-   imply or suggest authorship by the Morphe open source project. If unsure, then simply name these
-   patches after yourself ("UserXYZ Morphe patches"). See the [NOTICE](NOTICE) for details. 
-6. (Optional): Add `patches-bundle.png` to the project if you want a custom icon to show in
-   Morphe Manager instead of your GitHub profile avatar.
+- Add as a custom source in Morphe Manager using this repository URL:
+  `https://github.com/durgesh0505/chiggi_morphe_patches`
+- Or download the bundle directly:
+  [`patches-1.0.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
-🎉 You are now ready to start creating patches!
+Patch the SonyLIV Android TV APK with Morphe, then sideload the result onto your device
+(SonyLIV is a split APK; Morphe handles merging and signing).
 
-## 🧑‍💻 Usage
+## 🛠️ Building from source
 
-To develop and release Morphe Patches using this template, some things need to be considered:
+Requirements: JDK 17+ and the Android SDK (compileSdk 36).
 
-- Development starts in feature branches. Once a feature branch is ready, it is squashed and merged into the `dev` branch
-- The `dev` branch is merged into the `main` branch once it is ready for release
-- Semantic versioning is used to version Morphe Patches.
-- [Semantic commit](https://kapeli.com/cheat_sheets/Semantic_Commits.docset/Contents/Resources/Documents/index) messages are used for commits
-- Commits on the `dev` branch and `main` branch are automatically released
-via the [release.yml](.github/workflows/release.yml) workflow, which is also responsible for generating the changelog
-and updating the version of Morphe Patches. It is triggered by pushing to the `dev` or `main` branch.
-The workflow uses the `publish` task to publish the release of Morphe Patches.
-- The `buildAndroid` task is used to build Morphe Patches so that it can be used on Android.
+A GitHub Personal Access Token with the `read:packages` scope is required to resolve
+`morphe-patcher` from the Morphe GitHub Packages registry. Add it to `~/.gradle/gradle.properties`:
 
+```properties
+gpr.user=YOUR_GITHUB_USERNAME
+gpr.key=YOUR_GITHUB_TOKEN
+```
 
-## 🤓 Tips
-- See the [patcher documentation](https://github.com/MorpheApp/morphe-patcher/blob/main/docs/1_patcher_intro.md)
-  for more examples of creating patches and fingerprints.
-- Do not manually edit any generated files such as: `patches-list.json`, `patches-bundle.json`, `CHANGELOG.md`.
-  These files will be automatically updated in the release action.
-- Do not force push any semantic release commits or you will break the release. To 'redo' the last release then:
-  - Git drop the last dev/main semantic release commit you want to redo.
-  - Delete the release from the release area of this repo and delete the tag   
-  - Make any other changes you wish to do
-  - Force push dev/main branch
-  - A new replacement release will be created by `release.yml`
+Then build the patch bundle:
 
+```bash
+./gradlew buildAndroid
+# Output: patches/build/libs/patches-<version>.mpp
+```
 
-## 📚 Everything else
+List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
-Optionally you can include a button/link in this readme that users can click to add your 
-patches to Morphe (update the links below after creating your new patches repo):
-
-<!-- The patches end tag is intentionally placed here so the first release will cleanup 
-     this readme of all developer instructions above. -->
-<!-- PATCHES_END -->
-
-#### How to use these patches
-
-Click here to add these patches to Morphe: https://morphe.software/add-source?github=xyz-user/xyz-patches
-
-Or manually add this repository url as a patch source in Morphe: https://github.com/xyz-user/xyz-patches
-
-### 📙 Contributing
-
-Thank you for considering contributing to UserXYZ Morphe Patches.  
-You can find the contribution guidelines [here](CONTRIBUTING.md).
-
-### 🛠️ Building
-
-To build UserXYZ Morphe Patches,
-you can follow the [Morphe documentation](https://github.com/MorpheApp/morphe-documentation).
+```bash
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.0.0.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.0.0.mpp -o out.apk base.apk
+```
 
 ## 📜 License
 
-UserXYZ Morphe Patches are licensed under the [GNU General Public License v3.0](LICENSE)
+Licensed under the [GNU General Public License v3.0](LICENSE), with the additional GPL Section 7
+terms described in [NOTICE](NOTICE). These patches are based on the prior work of
+[Morphe](https://github.com/MorpheApp) and [ReVanced](https://github.com/ReVanced); the `NOTICE`
+file is preserved as required. This project uses its own identity and is not associated with the
+Morphe project name.
