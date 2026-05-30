@@ -1,5 +1,5 @@
 {
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "patches": [
     {
       "name": "Auto skip intro and recap",
@@ -79,6 +79,31 @@
     {
       "name": "Disable forced update",
       "description": "Removes the forced ('immediate') and optional ('flexi') 'update available' popup shown on the home screen.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.sonyliv",
+          "name": "SonyLIV",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#7460A4",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "6.23.1",
+              "isExperimental": false,
+              "minSdk": 22,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove video ads",
+      "description": "Forces PlayerUtil.isAdEnable() to false so the player neither requests nor plays ads. Removes client-side (Google IMA) ads. Server-side stitched ads on some live content (MediaTailor/SSAI) may still appear.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [

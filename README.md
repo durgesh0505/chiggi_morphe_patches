@@ -16,6 +16,7 @@ independent project and are **not affiliated with Sony, SonyLIV, ReVanced, or th
 
 | Patch | What it does | Status |
 |-------|--------------|--------|
+| **Remove video ads** | Forces `PlayerUtil.isAdEnable()` to false so the player neither requests nor plays ads. Removes client-side (Google IMA) ads. | ✅ Applies cleanly; pending on-device confirmation |
 | **Auto skip intro and recap** | Automatically skips intro, recap and song segments as soon as the "Skip" button would appear, without waiting for a tap. | ✅ Applies cleanly; pending on-device confirmation |
 | **Disable AppsFlyer tracking** | Disables AppsFlyer attribution and event tracking by forcing `isAppsFlyerSupported()` to false. | ✅ Applies cleanly |
 | **Disable Firebase tracking** | Disables Firebase Analytics, Crashlytics and Performance collection via manifest flags. Push notifications are unaffected. | ✅ Applies cleanly |
@@ -24,12 +25,12 @@ independent project and are **not affiliated with Sony, SonyLIV, ReVanced, or th
 All four patches are verified to **resolve and apply** against `com.sonyliv` 6.23.1 using `morphe-cli`.
 Runtime behaviour should still be confirmed on a device.
 
-### Not included (yet)
+### Notes & limitations
 
-- **Remove ads** — SonyLIV uses three server-side ad-insertion systems (Google IMA DAI, AWS
-  MediaTailor, VisualOn SSAI). Server-stitched ads (especially live) cannot be removed client-side.
-  A client-flag approach (forcing MediaTailor off) is under investigation and needs device testing
-  before it is shipped, as it may affect live playback.
+- **Ads on live content** — "Remove video ads" disables the client-side (Google IMA) ad path.
+  SonyLIV also uses server-side ad insertion (AWS MediaTailor / VisualOn SSAI) for some live
+  streams; ads stitched into the video server-side cannot be removed by a client patch and may
+  still appear on live content.
 - **CleverTap** is intentionally **not** disabled. It is dependency-injected and drives in-app
   overlays / native-display UI, so disabling it would crash parts of the app. "Disable analytics"
   here covers AppsFlyer and the Firebase stack only.
@@ -41,7 +42,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
 - Add as a custom source in Morphe Manager using this repository URL:
   `https://github.com/durgesh0505/chiggi_morphe_patches`
 - Or download the bundle directly:
-  [`patches-1.0.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.1.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK with Morphe, then sideload the result onto your device
 (SonyLIV is a split APK; Morphe handles merging and signing).
@@ -68,8 +69,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.0.0.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.0.0.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.1.0.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.1.0.mpp -o out.apk base.apk
 ```
 
 ## 📜 License
