@@ -5,9 +5,11 @@
 # producing a single installable APK (same settings as the current release).
 #
 # Usage:
-#   ./scripts/repatch_sonyliv.sh [path/to/app.apkm]
+#   ./scripts/repatch_sonyliv.sh [app.apkm | path/to/app.apkm]
 #
-# If no path is given, you are prompted to pick an .apkm.
+# Input  : a bare file name is resolved against  sonyliv/ ; a full path also works.
+#          If omitted, you are prompted for the file name.
+# Output : sonyliv/output/<name>_chiggi_patched.apk
 #
 # Overridable via environment variables:
 #   APP_NAME       (default "Sony Liv Chiggi")     -> launcher name
@@ -16,7 +18,7 @@
 #   MORPHE_CLI     (default ~/tools/morphe-cli/morphe-cli.jar)
 #   JAVA_HOME      (default /usr/lib/jvm/java-21-openjdk-amd64)
 #   ANDROID_HOME   (default ~/Android/Sdk)          -> only used for verify
-#   OUT_DIR        (default: same folder as the .apkm)
+#   OUT_DIR        (default: sonyliv/output)
 #
 set -euo pipefail
 
@@ -54,25 +56,23 @@ fi
 echo "Using patch bundle: $MPP"
 
 # ---------- Select the .apkm ----------
+# Input lives in sonyliv/. You may pass/enter just a filename (resolved against
+# sonyliv/) or a full path. Output always goes to sonyliv/output/.
+APKM_DIR="$PROJECT_DIR/sonyliv"
+
 APKM="${1:-}"
 if [[ -z "$APKM" ]]; then
-  mapfile -t found < <(find "$PROJECT_DIR" -maxdepth 3 -iname '*.apkm' 2>/dev/null)
-  if [[ ${#found[@]} -gt 0 ]]; then
-    echo "Select the SonyLIV Android TV .apkm to patch:"
-    select choice in "${found[@]}" "Enter a path manually"; do
-      if [[ "$choice" == "Enter a path manually" ]]; then
-        read -e -r -p "Path to .apkm: " APKM; break
-      elif [[ -n "${choice:-}" ]]; then
-        APKM="$choice"; break
-      fi
-    done
-  else
-    read -e -r -p "Path to .apkm: " APKM
-  fi
+  read -e -r -p "Enter .apkm file name (in $APKM_DIR) or full path: " APKM
+fi
+
+# Resolve a bare file name against the sonyliv/ directory.
+if [[ ! -f "$APKM" && -f "$APKM_DIR/$APKM" ]]; then
+  APKM="$APKM_DIR/$APKM"
 fi
 [[ -f "$APKM" ]] || die "apkm not found: $APKM"
 
-OUT_DIR="${OUT_DIR:-$(dirname "$APKM")}"
+OUT_DIR="${OUT_DIR:-$APKM_DIR/output}"
+mkdir -p "$OUT_DIR"
 base="$(basename "$APKM")"; base="${base%.*}"
 OUT="$OUT_DIR/${base}_chiggi_patched.apk"
 

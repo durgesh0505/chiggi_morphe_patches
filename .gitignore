@@ -150,3 +150,6 @@ local.properties
 *.jks
 # Generated patch options
 options.json
+
+# Patched APK output
+/sonyliv/output/
