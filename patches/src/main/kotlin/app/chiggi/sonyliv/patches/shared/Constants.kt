@@ -10,7 +10,7 @@ object Constants {
         packageName = "com.sonyliv",
         // Distributed as split APKs (APKM bundle) on APKMirror.
         apkFileType = ApkFileType.APKM,
-        appIconColor = 0xFF7460A4.toInt(), // SonyLIV accent (apkm info.json accent_color = 7460a4)
+        appIconColor = 0x7460A4, // SonyLIV accent (apkm info.json accent_color = 7460a4), 0xRRGGBB
         targets = listOf(
             AppTarget(
                 version = "6.23.1",
