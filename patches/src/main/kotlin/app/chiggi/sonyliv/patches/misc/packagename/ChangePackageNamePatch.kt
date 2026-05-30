@@ -47,6 +47,22 @@ val changePackageNamePatch = resourcePatch(
                     )
                 }
             }
+
+            // Rename the app's own custom permissions (declared and used) so they do not clash with
+            // the original app's signature-level permissions, which would otherwise cause
+            // INSTALL_FAILED_DUPLICATE_PERMISSION ("conflicts with an existing package").
+            // Only names under the original package prefix are touched; system/third-party
+            // permissions (android.permission.*, com.google.*, etc.) are left unchanged.
+            listOf("permission", "uses-permission").forEach { tag ->
+                val nodes = document.getElementsByTagName(tag)
+                for (i in 0 until nodes.length) {
+                    val node = nodes.item(i) as Element
+                    val name = node.getAttribute("android:name")
+                    if (name.startsWith("$ORIGINAL_PACKAGE.") && !name.startsWith("$newPackage.")) {
+                        node.setAttribute("android:name", name.replaceFirst("$ORIGINAL_PACKAGE.", "$newPackage."))
+                    }
+                }
+            }
         }
     }
 }
