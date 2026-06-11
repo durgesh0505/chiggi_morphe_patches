@@ -18,6 +18,8 @@ independent project and are **not affiliated with Sony, SonyLIV, ReVanced, or th
 |-------|--------------|--------|
 | **Remove video ads** | Forces `PlayerUtil.isAdEnable()` to false so the player neither requests nor plays ads. Removes client-side (Google IMA) ads. | ✅ Applies cleanly; pending on-device confirmation |
 | **Auto skip intro and recap** | Automatically skips intro, recap and song segments as soon as the "Skip" button would appear, without waiting for a tap. | ✅ Applies cleanly; pending on-device confirmation |
+| **Auto-skip Up Next** | Plays the next episode immediately when the "Up Next" card appears, skipping the auto-play countdown. | ✅ Applies cleanly; pending on-device confirmation |
+| **Suppress geo / VPN block** | Downgrades the geo / "VPN detected" block to a generic error so the dedicated block screens aren't shown. Does **not** grant access — geoblocking is server-side by IP; a valid in-region (India) connection is still required. | ✅ Applies cleanly; pending on-device confirmation |
 | **Disable AppsFlyer tracking** | Disables AppsFlyer attribution and event tracking by forcing `isAppsFlyerSupported()` to false. | ✅ Applies cleanly |
 | **Disable Firebase tracking** | Disables Firebase Analytics, Crashlytics and Performance collection via manifest flags. Push notifications are unaffected. | ✅ Applies cleanly |
 | **Disable forced update** | Removes the forced ("immediate") and optional ("flexi") "update available" popup shown on the home screen. | ✅ Applies cleanly |
@@ -44,7 +46,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
 - Add as a custom source in Morphe Manager using this repository URL:
   `https://github.com/durgesh0505/chiggi_morphe_patches`
 - Or download the bundle directly:
-  [`patches-1.2.1.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.3.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK with Morphe, then sideload the result onto your device
 (SonyLIV is a split APK; Morphe handles merging and signing).
@@ -87,8 +89,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.2.1.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.2.1.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.3.0.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.3.0.mpp -o out.apk base.apk
 ```
 
 ## 📜 License
