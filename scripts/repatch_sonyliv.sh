@@ -56,22 +56,24 @@ fi
 echo "Using patch bundle: $MPP"
 
 # ---------- Select the .apkm ----------
-# Input lives in sonyliv/. You may pass/enter just a filename (resolved against
-# sonyliv/) or a full path. Output always goes to sonyliv/output/.
-APKM_DIR="$PROJECT_DIR/sonyliv"
+# Input is looked up in APK/ then sonyliv/. You may pass/enter just a filename
+# (resolved against those dirs) or a full path. Output goes to sonyliv/output/.
+SEARCH_DIRS=("$PROJECT_DIR/APK" "$PROJECT_DIR/sonyliv")
 
 APKM="${1:-}"
 if [[ -z "$APKM" ]]; then
-  read -e -r -p "Enter .apkm file name (in $APKM_DIR) or full path: " APKM
+  read -e -r -p "Enter .apkm file name (in APK/ or sonyliv/) or full path: " APKM
 fi
 
-# Resolve a bare file name against the sonyliv/ directory.
-if [[ ! -f "$APKM" && -f "$APKM_DIR/$APKM" ]]; then
-  APKM="$APKM_DIR/$APKM"
+# Resolve a bare file name against the search dirs.
+if [[ ! -f "$APKM" ]]; then
+  for d in "${SEARCH_DIRS[@]}"; do
+    if [[ -f "$d/$APKM" ]]; then APKM="$d/$APKM"; break; fi
+  done
 fi
-[[ -f "$APKM" ]] || die "apkm not found: $APKM"
+[[ -f "$APKM" ]] || die "apkm not found: $APKM (looked in: ${SEARCH_DIRS[*]})"
 
-OUT_DIR="${OUT_DIR:-$APKM_DIR/output}"
+OUT_DIR="${OUT_DIR:-$PROJECT_DIR/sonyliv/output}"
 mkdir -p "$OUT_DIR"
 base="$(basename "$APKM")"; base="${base%.*}"
 OUT="$OUT_DIR/${base}_chiggi_patched.apk"
