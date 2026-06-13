@@ -1,5 +1,5 @@
 {
-  "version": "v1.4.0",
+  "version": "v1.5.0",
   "patches": [
     {
       "name": "Auto skip intro and recap",
@@ -64,7 +64,43 @@
           "description": "The name shown under the app icon.",
           "required": true,
           "type": "kotlin.String",
+          "default": "Fox One Morphe",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Change app name",
+      "description": "Changes the app name shown under the launcher icon. Set the desired name in the patch options.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "appName",
+          "title": "App name",
+          "description": "The name shown under the app icon.",
+          "required": true,
+          "type": "kotlin.String",
           "default": "Sony LIV",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Change package name",
+      "description": "Changes the app package name so the patched app installs alongside the original. Rewrites provider authorities and custom permissions. Set the desired package name in the patch options. Changing the package name can cause unexpected issues with some app features.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "packageName",
+          "title": "Package name",
+          "description": "The new application package name (e.g. com.fox.foxone.morphe).",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "com.fox.foxone.morphe",
           "values": null
         }
       ]
@@ -138,6 +174,31 @@
       "options": []
     },
     {
+      "name": "Disable FoxKit analytics",
+      "description": "Disables the FoxKit first-party analytics pipeline by no-oping AnalyticsClient.logEvent / logPerformanceEvent, so no analytics events are recorded or uploaded. Third-party SDKs (AppsFlyer, Segment, Adobe, Comscore, Conviva, Nielsen) are not affected by this patch.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.fox.foxone",
+          "name": "FOX One",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#0C2340",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.17.1",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
       "name": "Disable forced update",
       "description": "Removes the forced ('immediate') and optional ('flexi') 'update available' popup shown on the home screen.",
       "default": true,
@@ -155,6 +216,31 @@
               "version": "6.23.1",
               "isExperimental": false,
               "minSdk": 22,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Disable tracking SDKs",
+      "description": "Stops the Heap analytics and FOX remote-logging SDKs from auto-initialising (disables their startup ContentProviders) and turns off Firebase Analytics/Crashlytics/Performance collection via manifest flags. Push notifications are unaffected.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.fox.foxone",
+          "name": "FOX One",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#0C2340",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.17.1",
+              "isExperimental": false,
+              "minSdk": 24,
               "description": null
             }
           ]
