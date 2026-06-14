@@ -1,5 +1,5 @@
 {
-  "version": "v1.6.0",
+  "version": "v1.7.0",
   "patches": [
     {
       "name": "Auto skip intro and recap",
@@ -44,6 +44,37 @@
               "version": "6.23.1",
               "isExperimental": false,
               "minSdk": 22,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Bypass PairIP license check",
+      "description": "No-ops com.pairip.licensecheck.LicenseClient.checkLicense so the PairIP (Google Play Automatic Integrity Protection) startup license check is skipped and the \"Something went wrong / check Google Play\" screen is not shown. NOTE: this only bypasses the client-side startup check; FOX's servers may still reject a re-signed app for login/playback.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.fox.foxone",
+          "name": "FOX One",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#0C2340",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.17.1",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            },
+            {
+              "version": "1.15.1",
+              "isExperimental": false,
+              "minSdk": 24,
               "description": null
             }
           ]
@@ -142,6 +173,12 @@
               "isExperimental": false,
               "minSdk": 24,
               "description": null
+            },
+            {
+              "version": "1.15.1",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
             }
           ]
         }
@@ -217,6 +254,12 @@
               "isExperimental": false,
               "minSdk": 24,
               "description": null
+            },
+            {
+              "version": "1.15.1",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
             }
           ]
         }
@@ -239,6 +282,12 @@
           "targets": [
             {
               "version": "1.17.1",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            },
+            {
+              "version": "1.15.1",
               "isExperimental": false,
               "minSdk": 24,
               "description": null
@@ -289,6 +338,12 @@
           "targets": [
             {
               "version": "1.17.1",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            },
+            {
+              "version": "1.15.1",
               "isExperimental": false,
               "minSdk": 24,
               "description": null
