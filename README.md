@@ -37,11 +37,13 @@ Also targets **FOX One** (`com.fox.foxone`, v1.17.1, Android TV / mobile).
 | Patch | What it does | Status |
 |-------|--------------|--------|
 | **Disable FoxKit analytics** | No-ops `AnalyticsClient.logEvent` so FoxKit first-party telemetry is not recorded/uploaded. | ✅ Applies cleanly |
+| **Disable AppsFlyer tracking** | No-ops the wrapper that calls `AppsFlyerLib.start()`, so AppsFlyer never initialises or tracks. | ✅ Applies cleanly |
 | **Disable tracking SDKs** | Disables Heap analytics + FOX remote-logging auto-init providers and turns off Firebase collection (manifest). | ✅ Applies cleanly |
+| **Disable forced update** | Forces `AppUpdateConfig.enabled` to false, disabling the forced-update / kill-switch screen. | ✅ Applies cleanly |
 | **Change app name** *(opt-in)* | Renames the app (option **App name**, pre-filled `Fox One Morphe`). | ✅ Verified |
 | **Change package name** *(opt-in)* | Renames the package to install alongside the original (option **Package name**, pre-filled `com.fox.foxone.morphe`); rewrites authorities + custom permissions. | ✅ Verified |
 
-**Not feasible for FOX One:** ad-free (ads are server-side stitched via Google IMA DAI + FreeWheel SSAI — baked into the live/VOD stream, no client ad path), and subscription unlock (server entitlement + DRM + IAP). Comprehensive analytics (AppsFlyer/Segment/Adobe/Comscore/Conviva/Nielsen) and the forced-update gate live in obfuscated/distributed SDK code and are not covered by these patches.
+**Not feasible for FOX One:** ad-free (ads are server-side stitched via Google IMA DAI + FreeWheel SSAI — baked into the live/VOD stream, no client ad path), and subscription unlock (server entitlement + DRM + IAP). Of the analytics SDKs, **Segment, Adobe, Comscore, Conviva and Nielsen are not covered** — they are distributed across many obfuscated/player-wired classes with no single clean chokepoint.
 
 ### Notes & limitations
 
@@ -60,7 +62,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
 - Add as a custom source in Morphe Manager using this repository URL:
   `https://github.com/durgesh0505/chiggi_morphe_patches`
 - Or download the bundle directly:
-  [`patches-1.5.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.6.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK with Morphe, then sideload the result onto your device
 (SonyLIV is a split APK; Morphe handles merging and signing).
@@ -103,8 +105,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.5.0.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.5.0.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.6.0.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.6.0.mpp -o out.apk base.apk
 ```
 
 ## 📜 License

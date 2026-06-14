@@ -9,8 +9,7 @@ val disableFoxAnalyticsPatch = bytecodePatch(
     name = "Disable FoxKit analytics",
     description = "Disables the FoxKit first-party analytics pipeline by no-oping " +
         "AnalyticsClient.logEvent / logPerformanceEvent, so no analytics events are recorded " +
-        "or uploaded. Third-party SDKs (AppsFlyer, Segment, Adobe, Comscore, Conviva, Nielsen) " +
-        "are not affected by this patch.",
+        "or uploaded.",
     default = true,
 ) {
     compatibleWith(COMPATIBILITY_FOXONE)

@@ -1,5 +1,5 @@
 {
-  "version": "v1.5.0",
+  "version": "v1.6.0",
   "patches": [
     {
       "name": "Auto skip intro and recap",
@@ -125,6 +125,31 @@
     },
     {
       "name": "Disable AppsFlyer tracking",
+      "description": "Stops AppsFlyer from initialising and tracking by no-oping the wrapper that calls AppsFlyerLib.start().",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.fox.foxone",
+          "name": "FOX One",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#0C2340",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.17.1",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Disable AppsFlyer tracking",
       "description": "Disables AppsFlyer attribution and event tracking. Other SDKs (CleverTap, Firebase Analytics/Crashlytics) are not affected by this patch.",
       "default": true,
       "dependencies": [],
@@ -175,7 +200,32 @@
     },
     {
       "name": "Disable FoxKit analytics",
-      "description": "Disables the FoxKit first-party analytics pipeline by no-oping AnalyticsClient.logEvent / logPerformanceEvent, so no analytics events are recorded or uploaded. Third-party SDKs (AppsFlyer, Segment, Adobe, Comscore, Conviva, Nielsen) are not affected by this patch.",
+      "description": "Disables the FoxKit first-party analytics pipeline by no-oping AnalyticsClient.logEvent / logPerformanceEvent, so no analytics events are recorded or uploaded.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.fox.foxone",
+          "name": "FOX One",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#0C2340",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.17.1",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Disable forced update",
+      "description": "Disables the forced-update / kill-switch screen by forcing the remote AppUpdateConfig.enabled flag to false.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [
