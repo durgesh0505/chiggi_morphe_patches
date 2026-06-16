@@ -44,6 +44,7 @@ public final class MealTimeSearchFilter {
     private static int sIdChipMealTime; // present only on meal-time header rows
     private static int sIdChipText;     // meal-time name TextView inside the chip
     private static int sIdContainerTags; // InterceptFlowLayout holding a tag group's chips
+    private static int sIdName;          // the food-name TextView inside a chip
 
     private MealTimeSearchFilter() {
     }
@@ -84,6 +85,7 @@ public final class MealTimeSearchFilter {
         sIdChipMealTime = res.getIdentifier("chip_meal_time", "id", pkg);
         sIdChipText = res.getIdentifier("chip_text", "id", pkg);
         sIdContainerTags = res.getIdentifier("container_tags", "id", pkg);
+        sIdName = res.getIdentifier("name", "id", pkg);
         sResolved = true;
     }
 
@@ -179,21 +181,45 @@ public final class MealTimeSearchFilter {
         return name;
     }
 
-    /** Shows chips whose label contains the query (case-insensitive); hides the rest. */
+    /** Shows chips whose food name contains the query (case-insensitive); hides the rest. */
     private static void filter(ViewGroup container, String query) {
         String needle = query.trim().toLowerCase(Locale.getDefault());
         int count = container.getChildCount();
         for (int i = 0; i < count; i++) {
             View chip = container.getChildAt(i);
-            boolean visible = needle.isEmpty();
-            if (!visible) {
-                TextView label = firstTextView(chip);
-                if (label != null) {
-                    visible = label.getText().toString().toLowerCase(Locale.getDefault()).contains(needle);
+            chip.setVisibility(needle.isEmpty() || chipMatches(chip, needle) ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    private static boolean chipMatches(View chip, String needle) {
+        // Prefer the dedicated food-name label (R.id.name); a chip also carries a quantity/diff
+        // number, and matching the first TextView found would test that number instead of the name.
+        if (sIdName != 0) {
+            View name = chip.findViewById(sIdName);
+            if (name instanceof TextView) {
+                return ((TextView) name).getText().toString().toLowerCase(Locale.getDefault()).contains(needle);
+            }
+        }
+        // Fallback: any TextView descendant whose text contains the query.
+        return anyTextViewContains(chip, needle);
+    }
+
+    private static boolean anyTextViewContains(View view, String needle) {
+        if (view instanceof EditText) {
+            return false;
+        }
+        if (view instanceof TextView) {
+            return ((TextView) view).getText().toString().toLowerCase(Locale.getDefault()).contains(needle);
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                if (anyTextViewContains(group.getChildAt(i), needle)) {
+                    return true;
                 }
             }
-            chip.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
+        return false;
     }
 
     private static EditText firstEditText(View view) {
@@ -204,25 +230,6 @@ public final class MealTimeSearchFilter {
             ViewGroup group = (ViewGroup) view;
             for (int i = 0; i < group.getChildCount(); i++) {
                 EditText found = firstEditText(group.getChildAt(i));
-                if (found != null) {
-                    return found;
-                }
-            }
-        }
-        return null;
-    }
-
-    private static TextView firstTextView(View view) {
-        if (view instanceof EditText) {
-            return null; // never treat an input field as a chip label
-        }
-        if (view instanceof TextView) {
-            return (TextView) view;
-        }
-        if (view instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup) view;
-            for (int i = 0; i < group.getChildCount(); i++) {
-                TextView found = firstTextView(group.getChildAt(i));
                 if (found != null) {
                     return found;
                 }
