@@ -1,0 +1,45 @@
+package app.chiggi.nutrilio.patches.misc.branding
+
+import app.chiggi.nutrilio.patches.shared.Constants.COMPATIBILITY_NUTRILIO
+import app.morphe.patcher.patch.resourcePatch
+import app.morphe.patcher.patch.stringOption
+import org.w3c.dom.Element
+
+private const val LAUNCHER_ACTIVITY = "net.nutrilio.view.activities.MainActivity"
+
+@Suppress("unused")
+val changeAppNamePatch = resourcePatch(
+    name = "Change app name",
+    description = "Changes the app name shown under the launcher icon. " +
+        "Set the desired name in the patch options.",
+    default = false,
+) {
+    compatibleWith(COMPATIBILITY_NUTRILIO)
+
+    val appName by stringOption(
+        key = "appName",
+        default = "Nutrilio Morphe",
+        title = "App name",
+        description = "The name shown under the app icon.",
+        required = true,
+    )
+
+    execute {
+        document("AndroidManifest.xml").use { document ->
+            val newName = appName!!
+
+            // Override the <application> label.
+            val application = document.getElementsByTagName("application").item(0) as Element
+            application.setAttribute("android:label", newName)
+
+            // Override the launcher activity label so the home screen shows the new name.
+            val activities = document.getElementsByTagName("activity")
+            for (i in 0 until activities.length) {
+                val activity = activities.item(i) as Element
+                if (activity.getAttribute("android:name") == LAUNCHER_ACTIVITY) {
+                    activity.setAttribute("android:label", newName)
+                }
+            }
+        }
+    }
+}

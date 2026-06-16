@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-06-13T21:05:00",
-  "description": "Chiggi SonyLIV Patches v1.8.0 \u2014 Remove video ads, Auto skip intro/recap, Auto-skip Up Next, Hide promo banners, Suppress geo/VPN block, Disable AppsFlyer, Disable Firebase, Disable forced update, Change app name, Change package name. Compatible with com.sonyliv 6.23.1.",
-  "download_url": "https://github.com/durgesh0505/chiggi_morphe_patches/releases/download/v1.8.0/patches-1.8.0.mpp",
+  "created_at": "2026-06-15T21:00:00",
+  "description": "Chiggi Morphe Patches v1.9.0 — SonyLIV (com.sonyliv 6.23.1): Remove video ads, Auto skip intro/recap, Auto-skip Up Next, Hide promo banners, Suppress geo/VPN block, Disable AppsFlyer, Disable Firebase, Disable forced update, Change app name, Change package name. Nutrilio (net.nutrilio 1.20.2): Unlock Plus, Disable analytics, Add food search bar, Change app name, Change package name.",
+  "download_url": "https://github.com/durgesh0505/chiggi_morphe_patches/releases/download/v1.9.0/patches-1.9.0.mpp",
   "signature_download_url": "",
-  "version": "1.8.0"
+  "version": "1.9.0"
 }

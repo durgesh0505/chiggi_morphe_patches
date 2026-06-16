@@ -1,18 +1,20 @@
-# 🧩 Chiggi SonyLIV Patches
+# 🧩 Chiggi Morphe Patches
 
-Third-party [Morphe](https://morphe.software) patches for the **SonyLIV (Android TV)** app.
+Third-party [Morphe](https://morphe.software) patches for **SonyLIV (Android TV)** and
+**Nutrilio (phone)**.
 
 ## ❓ About
 
-A small set of patches that modify the SonyLIV Android TV app at the bytecode/resource level,
-applied with [Morphe](https://github.com/MorpheApp) (a fork of ReVanced). These patches are an
-independent project and are **not affiliated with Sony, SonyLIV, ReVanced, or the Morphe project**.
+A set of patches that modify these apps at the bytecode/resource level, applied with
+[Morphe](https://github.com/MorpheApp) (a fork of ReVanced). These patches are an independent
+project and are **not affiliated with Sony, SonyLIV, Nutrilio, ReVanced, or the Morphe project**.
 
-- **Target app:** `com.sonyliv`
-- **Tested version:** `6.23.1` (Android TV / leanback build)
-- **Player:** AndroidX Media3 (ExoPlayer)
+| App | Package | Tested version | Notes |
+|-----|---------|----------------|-------|
+| SonyLIV | `com.sonyliv` | `6.23.1` (Android TV / leanback) | Media3 (ExoPlayer) |
+| Nutrilio | `net.nutrilio` | `1.20.2` (phone) | split APKS bundle |
 
-## 🩹 Patches
+## 🩹 SonyLIV patches
 
 | Patch | What it does | Status |
 |-------|--------------|--------|
@@ -40,6 +42,27 @@ Runtime behaviour should still be confirmed on a device.
   overlays / native-display UI, so disabling it would crash parts of the app. "Disable analytics"
   here covers AppsFlyer and the Firebase stack only.
 
+## 🩹 Nutrilio patches
+
+| Patch | What it does | Status |
+|-------|--------------|--------|
+| **Unlock Plus** | Forces the premium gate (`PremiumModule.t2()`) to true, unlocking all Nutrilio PLUS+ features (custom colors, all charts, app lock, all tracking options). Client-side only; does not grant a real Google Play subscription. | ✅ Applies cleanly; pending on-device confirmation |
+| **Disable analytics** | Disables Firebase/Google Analytics, Crashlytics and Performance via manifest flags and removes the advertising-id (`AD_ID`) permissions. Push notifications are unaffected. | ✅ Applies cleanly |
+| **Add food search bar** *(opt-in)* | Adds a live search box below each meal-time header in the day/meal form; typing filters that meal's food chips. Filtering only hides chips, so already-added items stay added. | ✅ Applies cleanly; pending on-device confirmation |
+| **Change app name** *(opt-in)* | Renames the app shown under the launcher icon. Editable in patch options (**App name**, pre-filled `Nutrilio Morphe`). | ✅ Verified |
+| **Change package name** *(opt-in)* | Renames the package so the patched app installs alongside the original, rewriting provider authorities. Editable in patch options (**Package name**, pre-filled `net.nutrilio.morphe`). | ✅ Verified |
+
+### Notes & limitations
+
+- **Any-version compatibility** — the Nutrilio patches declare no fixed version, so the Manager
+  offers them on any version. Nutrilio is R8-obfuscated, so the two bytecode patches (**Unlock
+  Plus**, **Add food search bar**) match obfuscated symbols. They are hardened — Unlock Plus
+  anchors on a stable backend string instead of the obfuscated method name, and the search bar
+  resolves resource ids by name at runtime — but only `1.20.2` is verified. The resource/manifest
+  patches (**Disable analytics**, **Change app name/package**) are version-agnostic.
+- **Add food search bar** is the most update-fragile patch (it hooks the obfuscated form adapter)
+  and is **off by default** so it can never block the other patches.
+
 ## 📲 How to use
 
 These patches are distributed as a `.mpp` bundle for Morphe Manager.
@@ -47,10 +70,10 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
 - Add as a custom source in Morphe Manager using this repository URL:
   `https://github.com/durgesh0505/chiggi_morphe_patches`
 - Or download the bundle directly:
-  [`patches-1.8.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.9.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
-Patch the SonyLIV Android TV APK with Morphe, then sideload the result onto your device
-(SonyLIV is a split APK; Morphe handles merging and signing).
+Patch the SonyLIV Android TV APK or the Nutrilio bundle with Morphe, then sideload the result onto
+your device (both ship as split APKs; Morphe handles merging and signing).
 
 ### Re-patching an APKM locally (helper script)
 
@@ -65,7 +88,16 @@ signs it with a keystore:
 
 Override the defaults with environment variables, e.g.
 `APP_NAME="My LIV" PACKAGE_NAME=com.sonyliv.custom KEYSTORE=./my.keystore ./scripts/repatch_sonyliv.sh app.apkm`.
-The script uses a locally built bundle if present, otherwise downloads the latest release.
+
+`scripts/repatch_nutrilio.sh` does the same for the Nutrilio split bundle (accepts the `.zip`
+download, copies it to `.apks`, enables the rename + food-search-bar patches, and signs):
+
+```bash
+./scripts/repatch_nutrilio.sh net.nutrilio.zip
+# defaults: APP_NAME="Nutrilio Morphe" PACKAGE_NAME=net.nutrilio.morphe SEARCH_BAR=1
+```
+
+Both scripts use a locally built bundle if present, otherwise download the latest release.
 Requires JDK 17+, the Android SDK, and [morphe-cli](https://github.com/MorpheApp/morphe-cli).
 
 ## 🛠️ Building from source
@@ -90,8 +122,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.8.0.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.8.0.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.9.0.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.9.0.mpp -o out.apk base.apk
 ```
 
 ## 📜 License
