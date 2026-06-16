@@ -1,5 +1,5 @@
 {
-  "version": "v1.9.1",
+  "version": "v1.9.2",
   "patches": [
     {
       "name": "Add food search bar",
@@ -81,7 +81,7 @@
     {
       "name": "Change app name",
       "description": "Changes the app name shown under the launcher icon. Set the desired name in the patch options.",
-      "default": false,
+      "default": true,
       "dependencies": [],
       "compatiblePackages": [
         {
@@ -118,7 +118,24 @@
       "description": "Changes the app name shown under the launcher icon. Set the desired name in the patch options.",
       "default": false,
       "dependencies": [],
-      "compatiblePackages": null,
+      "compatiblePackages": [
+        {
+          "packageName": "com.sonyliv",
+          "name": "SonyLIV",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#7460A4",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "6.23.1",
+              "isExperimental": false,
+              "minSdk": 22,
+              "description": null
+            }
+          ]
+        }
+      ],
       "options": [
         {
           "key": "appName",
@@ -134,7 +151,7 @@
     {
       "name": "Change package name",
       "description": "Changes the app package name so the patched app installs alongside the original. Set the desired package name in the patch options. Changing the package name can cause unexpected issues with some app features.",
-      "default": false,
+      "default": true,
       "dependencies": [],
       "compatiblePackages": [
         {
@@ -171,7 +188,24 @@
       "description": "Changes the app package name so the patched app installs alongside the original. Set the desired package name in the patch options. Changing the package name can cause unexpected issues with some app features.",
       "default": false,
       "dependencies": [],
-      "compatiblePackages": null,
+      "compatiblePackages": [
+        {
+          "packageName": "com.sonyliv",
+          "name": "SonyLIV",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#7460A4",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "6.23.1",
+              "isExperimental": false,
+              "minSdk": 22,
+              "description": null
+            }
+          ]
+        }
+      ],
       "options": [
         {
           "key": "packageName",

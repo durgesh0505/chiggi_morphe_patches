@@ -13,7 +13,7 @@ val changePackageNamePatch = resourcePatch(
     description = "Changes the app package name so the patched app installs alongside the " +
         "original. Set the desired package name in the patch options. Changing the package " +
         "name can cause unexpected issues with some app features.",
-    default = false,
+    default = true,
 ) {
     compatibleWith(COMPATIBILITY_NUTRILIO)
 

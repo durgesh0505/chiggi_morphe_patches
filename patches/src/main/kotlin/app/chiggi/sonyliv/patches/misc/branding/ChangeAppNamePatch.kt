@@ -14,6 +14,8 @@ val changeAppNamePatch = resourcePatch(
         "Set the desired name in the patch options.",
     default = false,
 ) {
+    compatibleWith(COMPATIBILITY_SONYLIV)
+
     val appName by stringOption(
         key = "appName",
         default = "Sony LIV",

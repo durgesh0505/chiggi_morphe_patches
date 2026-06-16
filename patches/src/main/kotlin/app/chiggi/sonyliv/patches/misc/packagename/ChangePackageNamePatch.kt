@@ -15,6 +15,8 @@ val changePackageNamePatch = resourcePatch(
         "name can cause unexpected issues with some app features.",
     default = false,
 ) {
+    compatibleWith(COMPATIBILITY_SONYLIV)
+
     val packageName by stringOption(
         key = "packageName",
         default = "$ORIGINAL_PACKAGE.chiggi",

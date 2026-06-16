@@ -12,7 +12,7 @@ val changeAppNamePatch = resourcePatch(
     name = "Change app name",
     description = "Changes the app name shown under the launcher icon. " +
         "Set the desired name in the patch options.",
-    default = false,
+    default = true,
 ) {
     compatibleWith(COMPATIBILITY_NUTRILIO)
 
