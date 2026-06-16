@@ -1,5 +1,5 @@
 {
-  "version": "v1.9.0",
+  "version": "v1.9.1",
   "patches": [
     {
       "name": "Add food search bar",
@@ -18,7 +18,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": null,
+              "version": "1.20.2",
               "isExperimental": false,
               "minSdk": 26,
               "description": null
@@ -93,7 +93,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": null,
+              "version": "1.20.2",
               "isExperimental": false,
               "minSdk": 26,
               "description": null
@@ -146,7 +146,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": null,
+              "version": "1.20.2",
               "isExperimental": false,
               "minSdk": 26,
               "description": null
@@ -249,7 +249,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": null,
+              "version": "1.20.2",
               "isExperimental": false,
               "minSdk": 26,
               "description": null
@@ -299,7 +299,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": null,
+              "version": "1.20.2",
               "isExperimental": false,
               "minSdk": 26,
               "description": null
@@ -399,7 +399,7 @@
           "signatures": null,
           "targets": [
             {
-              "version": null,
+              "version": "1.20.2",
               "isExperimental": false,
               "minSdk": 26,
               "description": null

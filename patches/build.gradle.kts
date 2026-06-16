@@ -2,8 +2,8 @@ group = "app.chiggi.sonyliv"
 
 patches {
     about {
-        name = "Chiggi SonyLIV Patches"
-        description = "Patches for SonyLIV (Android TV)"
+        name = "Chiggi Patches"
+        description = "Patches for SonyLIV (Android TV) and Nutrilio"
         source = "git@github.com:durgesh0505/chiggi_morphe_patches.git"
         author = "durgesh0505"
         contact = "na"
