@@ -54,12 +54,12 @@ Runtime behaviour should still be confirmed on a device.
 
 ### Notes & limitations
 
-- **Any-version compatibility** — the Nutrilio patches declare no fixed version, so the Manager
-  offers them on any version. Nutrilio is R8-obfuscated, so the two bytecode patches (**Unlock
-  Plus**, **Add food search bar**) match obfuscated symbols. They are hardened — Unlock Plus
-  anchors on a stable backend string instead of the obfuscated method name, and the search bar
-  resolves resource ids by name at runtime — but only `1.20.2` is verified. The resource/manifest
-  patches (**Disable analytics**, **Change app name/package**) are version-agnostic.
+- **Version** — pinned to `1.20.2`. A null ("any") version is rejected by Morphe Manager (it makes
+  the whole source fail to load), and Nutrilio is R8-obfuscated, so the two bytecode patches
+  (**Unlock Plus**, **Add food search bar**) only verifiably resolve on `1.20.2`. They are hardened
+  (Unlock Plus anchors on a stable backend string instead of the obfuscated method name; the search
+  bar resolves resource ids by name at runtime) to tolerate minor drift, but a different version may
+  need re-fingerprinting.
 - **Add food search bar** is the most update-fragile patch (it hooks the obfuscated form adapter)
   and is **off by default** so it can never block the other patches.
 
