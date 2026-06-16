@@ -45,6 +45,7 @@ public final class MealTimeSearchFilter {
     private static int sIdChipText;     // meal-time name TextView inside the chip
     private static int sIdContainerTags; // InterceptFlowLayout holding a tag group's chips
     private static int sIdName;          // the food-name TextView inside a chip
+    private static int sIdIconCross;     // the X / clear button in the search box
 
     private MealTimeSearchFilter() {
     }
@@ -86,6 +87,7 @@ public final class MealTimeSearchFilter {
         sIdChipText = res.getIdentifier("chip_text", "id", pkg);
         sIdContainerTags = res.getIdentifier("container_tags", "id", pkg);
         sIdName = res.getIdentifier("name", "id", pkg);
+        sIdIconCross = res.getIdentifier("icon_cross", "id", pkg);
         sResolved = true;
     }
 
@@ -152,6 +154,19 @@ public final class MealTimeSearchFilter {
             search.removeTextChangedListener((TextWatcher) previous);
         }
         search.setTag(sIdChipText, name);
+
+        // Wire the X / clear button to empty the field (its TextWatcher then re-shows every chip).
+        if (sIdIconCross != 0) {
+            View cross = headerRow.findViewById(sIdIconCross);
+            if (cross != null) {
+                cross.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        search.setText("");
+                    }
+                });
+            }
+        }
 
         String saved = QUERIES.get(name);
         if (saved == null) {
