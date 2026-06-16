@@ -67,8 +67,10 @@ Runtime behaviour should still be confirmed on a device.
 
 These patches are distributed as a `.mpp` bundle for Morphe Manager.
 
-- Add as a custom source in Morphe Manager using this repository URL:
-  `https://github.com/durgesh0505/chiggi_morphe_patches`
+- In Morphe Manager → Patch bundles → **Add → Enter URL**, paste the raw
+  `patches-bundle.json` URL (this is the source URL the Manager expects — **not** the
+  repository URL):
+  `https://raw.githubusercontent.com/durgesh0505/chiggi_morphe_patches/refs/heads/main/patches-bundle.json`
 - Or download the bundle directly:
   [`patches-1.9.1.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
