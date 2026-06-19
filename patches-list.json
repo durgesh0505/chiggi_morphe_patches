@@ -1,5 +1,5 @@
 {
-  "version": "v1.11.0",
+  "version": "v1.12.0",
   "patches": [
     {
       "name": "Add food search bar",
@@ -551,6 +551,31 @@
               "version": "6.23.1",
               "isExperimental": false,
               "minSdk": 22,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Local backup & restore",
+      "description": "Adds a \"Local backup & restore\" button to the Backup screen that opens Nutrilio's built-in (but normally hidden) local file backup/restore. Exports a complete backup — all entries, images and settings — to a portable .nutrilio file (a ZIP) via the share sheet, and restores one from a file you pick. No Google account, no premium needed. (Google Drive auto-backup is separate and still requires sign-in, which does not work on a re-signed app.)",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "net.nutrilio",
+          "name": "Nutrilio",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#36D4C3",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.20.2",
+              "isExperimental": false,
+              "minSdk": 26,
               "description": null
             }
           ]
