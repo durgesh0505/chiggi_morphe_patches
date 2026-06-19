@@ -1,18 +1,20 @@
 # 🧩 Chiggi Morphe Patches
 
-Third-party [Morphe](https://morphe.software) patches for **SonyLIV (Android TV)** and
-**Nutrilio (phone)**.
+Third-party [Morphe](https://morphe.software) patches for **SonyLIV (Android TV)**,
+**Nutrilio (phone)** and **Threads (phone)**.
 
 ## ❓ About
 
 A set of patches that modify these apps at the bytecode/resource level, applied with
 [Morphe](https://github.com/MorpheApp) (a fork of ReVanced). These patches are an independent
-project and are **not affiliated with Sony, SonyLIV, Nutrilio, ReVanced, or the Morphe project**.
+project and are **not affiliated with Sony, SonyLIV, Nutrilio, Meta, Threads, Instagram, ReVanced,
+or the Morphe project**.
 
 | App | Package | Tested version | Notes |
 |-----|---------|----------------|-------|
 | SonyLIV | `com.sonyliv` | `6.23.1` (Android TV / leanback) | Media3 (ExoPlayer) |
 | Nutrilio | `net.nutrilio` | `1.20.2` (phone) | split APKS bundle |
+| Threads | `com.instagram.barcelona` | `434.0.0.41.74` (phone) | Instagram codebase; split APKS bundle |
 
 ## 🩹 SonyLIV patches
 
@@ -63,6 +65,30 @@ Runtime behaviour should still be confirmed on a device.
 - **Add food search bar** is the most update-fragile patch (it hooks the obfuscated form adapter)
   and is **off by default** so it can never block the other patches.
 
+## 🩹 Threads patches
+
+| Patch | What it does | Status |
+|-------|--------------|--------|
+| **Hide ads** | Hides sponsored posts and injected "suggested"/netego units from the feed via two hooks: marks every media as organic (`Media.DED()` → false, covers server-inline ads) and blocks the feed ad-injection scheduler (`BarcelonaSpoolFeedCacheHandler` → no inject, covers injected ads). Client-side only. | ✅ Applies cleanly; pending on-device confirmation |
+| **Remove AD_ID permission** | Removes the advertising-id (`AD_ID` / `ACCESS_ADSERVICES_AD_ID`) permissions so the device ad id can't be read. Does **not** disable Meta's core analytics. | ✅ Applies cleanly |
+| **Change app name** *(on by default)* | Renames the app to **Threads Morphe** (editable in patch options). | ✅ Verified |
+| **Change package name** *(on by default)* | Renames the package to **com.instagram.barcelona.morphe** so it installs alongside the original (editable in patch options). | ✅ Verified |
+
+### Notes & limitations
+
+- **Version** — pinned to `434.0.0.41.74`. Threads is built from the heavily R8-obfuscated Instagram
+  codebase, whose class/method names shift on nearly every Meta release; the **Hide ads** hooks are
+  anchored on stable *named* classes but a different version may still need re-fingerprinting.
+- **Account / integrity risk** — Threads is a Meta account app. Re-signing and renaming the package
+  can trip Play Integrity / Meta app-attestation, which may cause feed-refresh failures, forced
+  logout, or account action. Test on a secondary account first. If login breaks, disable **Change
+  package name**.
+- **Analytics** — Threads uses Meta's own telemetry (analytics2 / OneFabric), not Firebase, so there
+  is no manifest flag to flip; only the `AD_ID` permission is removed.
+- **Scope** — **Hide ads** forces the global isAd predicate false, so it also suppresses ad
+  treatment on non-feed surfaces (e.g. reels). Server-side fetching of ads is unchanged; the patch
+  only refuses to surface them.
+
 ## 📲 How to use
 
 These patches are distributed as a `.mpp` bundle for Morphe Manager.
@@ -72,7 +98,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
   repository URL):
   `https://raw.githubusercontent.com/durgesh0505/chiggi_morphe_patches/refs/heads/main/patches-bundle.json`
 - Or download the bundle directly:
-  [`patches-1.9.4.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.10.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK or the Nutrilio bundle with Morphe, then sideload the result onto
 your device (both ship as split APKs; Morphe handles merging and signing).
@@ -124,8 +150,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.9.4.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.9.4.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.10.0.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.10.0.mpp -o out.apk base.apk
 ```
 
 ## 📜 License

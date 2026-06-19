@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-06-16T00:20:00",
-  "description": "Chiggi Patches v1.9.4 — Nutrilio food search bar: the X / clear button now empties the search and re-shows all chips. SonyLIV (com.sonyliv 6.23.1) + Nutrilio (net.nutrilio 1.20.2). Nutrilio Change app name + package name default on (Nutrilio Morphe / net.nutrilio.morphe).",
-  "download_url": "https://github.com/durgesh0505/chiggi_morphe_patches/releases/download/v1.9.4/patches-1.9.4.mpp",
+  "created_at": "2026-06-18T22:10:00",
+  "description": "Chiggi Patches v1.10.0 — adds Threads (com.instagram.barcelona 434.0.0.41.74): Hide ads (sponsored + netego feed units), Remove AD_ID permission, Change app name / package name (Threads Morphe / com.instagram.barcelona.morphe), all on by default. Plus SonyLIV (com.sonyliv 6.23.1) and Nutrilio (net.nutrilio 1.20.2).",
+  "download_url": "https://github.com/durgesh0505/chiggi_morphe_patches/releases/download/v1.10.0/patches-1.10.0.mpp",
   "signature_download_url": "",
-  "version": "1.9.4"
+  "version": "1.10.0"
 }

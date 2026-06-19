@@ -153,3 +153,4 @@ options.json
 
 # Patched APK output
 /sonyliv/output/
+/threads/output/
