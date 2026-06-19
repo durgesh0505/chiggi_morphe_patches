@@ -1,7 +1,7 @@
 # 🧩 Chiggi Morphe Patches
 
 Third-party [Morphe](https://morphe.software) patches for **SonyLIV (Android TV)**,
-**Nutrilio (phone)** and **Threads (phone)**.
+**Nutrilio (phone)**, **Threads (phone)** and **Arrow Puzzle (game)**.
 
 ## ❓ About
 
@@ -15,6 +15,7 @@ or the Morphe project**.
 | SonyLIV | `com.sonyliv` | `6.23.1` (Android TV / leanback) | Media3 (ExoPlayer) |
 | Nutrilio | `net.nutrilio` | `1.20.2` (phone) | split APKS bundle |
 | Threads | `com.instagram.barcelona` | `434.0.0.41.74` (phone) | Instagram codebase; split APKS bundle |
+| Arrow Puzzle | `com.easybrain.arrow.puzzle.game` | `1.7.0` (phone) | Easybrain Unity game; single universal APK |
 
 ## 🩹 SonyLIV patches
 
@@ -89,6 +90,23 @@ Runtime behaviour should still be confirmed on a device.
   treatment on non-feed surfaces (e.g. reels). Server-side fetching of ads is unchanged; the patch
   only refuses to surface them.
 
+## 🩹 Arrow Puzzle patches
+
+| Patch | What it does | Status |
+|-------|--------------|--------|
+| **Remove ads** | Removes **all** ads (banner + interstitial + rewarded) by neutering the Unity↔Android ad facade (`com.easybrain.ads.unity.AdsPlugin`): availability/show booleans return false, banner shows are no-ops, banner height is 0. One named chokepoint covers every mediation network (ironSource/AppLovin/AdMob/Pangle). | ✅ Applies cleanly; pending on-device confirmation |
+| **Disable analytics** | No-ops Easybrain analytics event upload (`AnalyticsPlugin.AnalyticsSendEvent` + the central `AnalyticsController` collector). SDK init is left intact so ad removal stays stable. | ✅ Applies cleanly |
+| **Remove AD_ID permission** | Removes the advertising-id + Ad Services (Privacy Sandbox) permissions. | ✅ Applies cleanly |
+| **Change app name** *(on by default)* | Renames the app to **Arrow Puzzle Morphe** (editable in patch options). | ✅ Verified |
+| **Change package name** *(on by default)* | Renames the package to **com.easybrain.arrow.puzzle.game.morphe** so it installs alongside the original (editable in patch options). | ✅ Verified |
+
+### Notes & limitations
+
+- **Unity game** — gameplay is native (IL2CPP), but ads + analytics run on the Android/DEX side via the Easybrain SDK, which is where these patches apply.
+- **Removing all ads removes rewarded ads too** — watch-to-earn rewards (coins/hints) no longer work, by design.
+- **Native anti-tamper** — the game ships `libsigner.so` / `libpglarmor.so`; a re-signed + renamed package may trip a native integrity check. If the app crashes or closes on launch, disable **Change package name** (and test the unrenamed build).
+- **Version** — pinned to `1.7.0`. The ad/analytics JNI facades (`AdsPlugin`/`AnalyticsPlugin`) keep stable names, but the central analytics collector is obfuscated and may need re-fingerprinting on updates.
+
 ## 📲 How to use
 
 These patches are distributed as a `.mpp` bundle for Morphe Manager.
@@ -98,7 +116,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
   repository URL):
   `https://raw.githubusercontent.com/durgesh0505/chiggi_morphe_patches/refs/heads/main/patches-bundle.json`
 - Or download the bundle directly:
-  [`patches-1.10.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.11.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK or the Nutrilio bundle with Morphe, then sideload the result onto
 your device (both ship as split APKs; Morphe handles merging and signing).
@@ -150,8 +168,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.10.0.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.10.0.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.11.0.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.11.0.mpp -o out.apk base.apk
 ```
 
 ## 📜 License

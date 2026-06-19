@@ -1,5 +1,5 @@
 {
-  "version": "v1.10.0",
+  "version": "v1.11.0",
   "patches": [
     {
       "name": "Add food search bar",
@@ -77,6 +77,41 @@
         }
       ],
       "options": []
+    },
+    {
+      "name": "Change app name",
+      "description": "Changes the app name shown under the launcher icon. Set the desired name in the patch options.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.easybrain.arrow.puzzle.game",
+          "name": "Arrow Puzzle",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#2D6CDF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.7.0",
+              "isExperimental": false,
+              "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "appName",
+          "title": "App name",
+          "description": "The name shown under the app icon.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "Arrow Puzzle Morphe",
+          "values": null
+        }
+      ]
     },
     {
       "name": "Change app name",
@@ -179,6 +214,41 @@
           "required": true,
           "type": "kotlin.String",
           "default": "Threads Morphe",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Change package name",
+      "description": "Changes the app package name so the patched app installs alongside the original. Set the desired package name in the patch options. WARNING: this game ships native integrity/signing libraries; a renamed + re-signed package may trip a native tamper check. Disable this patch if the app crashes or closes on launch.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.easybrain.arrow.puzzle.game",
+          "name": "Arrow Puzzle",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#2D6CDF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.7.0",
+              "isExperimental": false,
+              "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "packageName",
+          "title": "Package name",
+          "description": "The new application package name (e.g. com.easybrain.arrow.puzzle.game.morphe).",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "com.easybrain.arrow.puzzle.game.morphe",
           "values": null
         }
       ]
@@ -340,6 +410,31 @@
     },
     {
       "name": "Disable analytics",
+      "description": "Stops Easybrain analytics event upload (Unity AnalyticsPlugin send + the central AnalyticsController collector). SDK init is left intact so ad removal stays stable. Does not disable deep GMS/Firebase auto-collection; pair with Remove AD_ID for advertising-id.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.easybrain.arrow.puzzle.game",
+          "name": "Arrow Puzzle",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#2D6CDF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.7.0",
+              "isExperimental": false,
+              "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Disable analytics",
       "description": "Disables Firebase/Google Analytics, Crashlytics and Performance data collection via manifest flags and removes the advertising-id (AD_ID) permissions. Push notifications are unaffected.",
       "default": true,
       "dependencies": [],
@@ -465,6 +560,31 @@
     },
     {
       "name": "Remove AD_ID permission",
+      "description": "Removes the advertising-id and Ad Services (Privacy Sandbox) permissions so the device advertising id, Topics and Attribution signals cannot be read for ad tracking.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.easybrain.arrow.puzzle.game",
+          "name": "Arrow Puzzle",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#2D6CDF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.7.0",
+              "isExperimental": false,
+              "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove AD_ID permission",
       "description": "Removes the advertising-id (AD_ID) permissions so the device advertising id cannot be read for ad tracking. Does not disable Meta's core analytics.",
       "default": true,
       "dependencies": [],
@@ -481,6 +601,31 @@
               "version": "434.0.0.41.74",
               "isExperimental": false,
               "minSdk": 28,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove ads",
+      "description": "Removes ALL ads (banner, interstitial and rewarded) by neutering the Unity<->Android ad facade (com.easybrain.ads.unity.AdsPlugin): availability/show booleans return false, banner shows are no-ops and banner height is 0. The game treats every ad type as never ready. Note: rewarded ads are also removed, so watch-to-earn rewards no longer work.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.easybrain.arrow.puzzle.game",
+          "name": "Arrow Puzzle",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#2D6CDF",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.7.0",
+              "isExperimental": false,
+              "minSdk": 26,
               "description": null
             }
           ]
