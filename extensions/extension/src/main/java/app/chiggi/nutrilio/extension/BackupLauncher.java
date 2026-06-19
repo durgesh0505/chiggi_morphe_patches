@@ -1,37 +1,46 @@
 package app.chiggi.nutrilio.extension;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
+import android.view.ViewParent;
 import android.widget.Toast;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
 /**
- * Surfaces Nutrilio's built-in — but UI-hidden — local file backup/restore screen
- * ({@code net.nutrilio.view.activities.DebugBackupActivity}) by injecting a button into the
- * Google-Drive {@code BackupActivity}.
+ * Surfaces Nutrilio's built-in — but UI-hidden — local file backup/restore directly on the Backup
+ * screen, matching the app theme.
  *
- * <p>{@code DebugBackupActivity} already exports a complete backup to a {@code .nutrilio} file
- * (a ZIP containing all DB entries, image assets, and every setting via the app's BackupPrefKey
- * converters) through a share sheet, and restores one via the Storage Access Framework — all free,
- * no premium gate. It is {@code exported=true} and its {@code onCreate} guards a null intent Uri, so
- * launching it with an empty Intent opens straight to its Export / Import buttons.
+ * <p>{@link #install(Activity)} (hooked into {@code BackupActivity.onCreate}) inserts two native
+ * {@code net.nutrilio.view.custom_views.MenuItemView} rows — "Export backup file" and "Import backup
+ * file" — immediately above the existing "Restore Backup" row ({@code R.id.item_restore_backup}).
+ * Each row launches the hidden {@code DebugBackupActivity} with an action extra.
  *
- * <p>The button is added to {@code android.R.id.content} after layout (posted to the decor view), so
- * the injection point in {@code BackupActivity.onCreate} does not depend on where setContentView
- * runs. Only framework types are used; the target activity is referenced by name so a renamed
- * package (Change package name patch) still resolves it via {@link Activity#getPackageName()}.
+ * <p>{@link #autoAction(Activity)} (hooked into {@code DebugBackupActivity.onCreate}) reads that
+ * extra and performs a {@link View#performClick()} on the app's own export ({@code item_export_file})
+ * or import ({@code item_import_file}) button. That runs Nutrilio's own, unmodified backup machinery
+ * (the export's async build + share-sheet observer, the import's file-picker + restore-confirm), so
+ * the behaviour is exactly the app's — only the entry point is new. Everything is resolved by
+ * resource-id name and by the named {@code MenuItemView} class, so it survives obfuscation; all calls
+ * are wrapped so a layout change can never crash the host screen.
  */
 public final class BackupLauncher {
 
     private static final String DEBUG_BACKUP_ACTIVITY =
             "net.nutrilio.view.activities.DebugBackupActivity";
-    private static final String BUTTON_TAG = "morphe_local_backup_btn";
+    private static final String MENU_ITEM_VIEW = "net.nutrilio.view.custom_views.MenuItemView";
+    private static final String EXTRA_ACTION = "morphe_backup_action";
+    private static final String ACTION_EXPORT = "export";
+    private static final String ACTION_IMPORT = "import";
+    private static final String TAG_EXPORT = "morphe_export_row";
+    private static final String TAG_IMPORT = "morphe_import_row";
 
+    /** BackupActivity.onCreate hook: add the two themed rows above "Restore Backup". */
     public static void install(final Activity activity) {
         if (activity == null) return;
         try {
@@ -39,9 +48,8 @@ public final class BackupLauncher {
                 @Override
                 public void run() {
                     try {
-                        addButton(activity);
+                        addRows(activity);
                     } catch (Throwable ignored) {
-                        // Never let UI injection crash the host screen.
                     }
                 }
             });
@@ -49,46 +57,94 @@ public final class BackupLauncher {
         }
     }
 
-    private static void addButton(final Activity activity) {
-        View contentView = activity.findViewById(android.R.id.content);
-        if (!(contentView instanceof ViewGroup)) return;
-        ViewGroup content = (ViewGroup) contentView;
-        if (content.findViewWithTag(BUTTON_TAG) != null) return; // already added (e.g. config change)
+    private static void addRows(Activity activity) throws Exception {
+        Resources res = activity.getResources();
+        String pkg = activity.getPackageName();
+        int restoreId = res.getIdentifier("item_restore_backup", "id", pkg);
+        if (restoreId == 0) return;
 
-        Button button = new Button(activity);
-        button.setTag(BUTTON_TAG);
-        button.setAllCaps(false);
-        button.setText("Local backup & restore");
-        int padV = dp(activity, 12);
-        int padH = dp(activity, 20);
-        button.setPadding(padH, padV, padH, padV);
+        View restoreRow = activity.findViewById(restoreId);
+        if (restoreRow == null) return;
 
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-        lp.bottomMargin = dp(activity, 24);
-        content.addView(button, lp);
+        ViewParent parent = restoreRow.getParent();
+        if (!(parent instanceof ViewGroup)) return;
+        ViewGroup container = (ViewGroup) parent;
+        if (container.findViewWithTag(TAG_EXPORT) != null) return; // already inserted
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent intent = new Intent();
-                    intent.setClassName(activity.getPackageName(), DEBUG_BACKUP_ACTIVITY);
-                    activity.startActivity(intent);
-                } catch (Throwable t) {
-                    Toast.makeText(activity, "Backup screen unavailable", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        int restoreIndex = container.indexOfChild(restoreRow);
+        if (restoreIndex < 0) return;
+
+        View exportRow = buildRow(activity, "Export backup file", ACTION_EXPORT, TAG_EXPORT);
+        View importRow = buildRow(activity, "Import backup file", ACTION_IMPORT, TAG_IMPORT);
+        if (exportRow == null || importRow == null) return;
+
+        // Insert so the final order is: Export, Import, Restore Backup.
+        container.addView(importRow, restoreIndex, cloneLayoutParams(restoreRow));
+        container.addView(exportRow, restoreIndex, cloneLayoutParams(restoreRow));
     }
 
-    private static int dp(Activity activity, int value) {
-        return (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                value,
-                activity.getResources().getDisplayMetrics());
+    private static View buildRow(final Activity activity, String title, final String action, String tag) {
+        try {
+            Class<?> cls = Class.forName(MENU_ITEM_VIEW);
+            Constructor<?> ctor = cls.getConstructor(Context.class);
+            Object menuItem = ctor.newInstance(activity);
+            if (!(menuItem instanceof View)) return null;
+
+            Method setTitle = cls.getMethod("setTitle", String.class);
+            setTitle.invoke(menuItem, title);
+
+            View row = (View) menuItem;
+            row.setTag(tag);
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = new Intent();
+                        intent.setClassName(activity.getPackageName(), DEBUG_BACKUP_ACTIVITY);
+                        intent.putExtra(EXTRA_ACTION, action);
+                        activity.startActivity(intent);
+                    } catch (Throwable t) {
+                        Toast.makeText(activity, "Backup screen unavailable", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            return row;
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
+    private static ViewGroup.LayoutParams cloneLayoutParams(View sibling) {
+        ViewGroup.LayoutParams src = sibling.getLayoutParams();
+        int width = src != null ? src.width : ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = src != null ? src.height : ViewGroup.LayoutParams.WRAP_CONTENT;
+        return new ViewGroup.LayoutParams(width, height);
+    }
+
+    /** DebugBackupActivity.onCreate hook: auto-fire the requested export/import button. */
+    public static void autoAction(final Activity activity) {
+        if (activity == null) return;
+        try {
+            Intent intent = activity.getIntent();
+            if (intent == null) return;
+            final String action = intent.getStringExtra(EXTRA_ACTION);
+            if (action == null) return;
+
+            activity.getWindow().getDecorView().post(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String idName = ACTION_EXPORT.equals(action) ? "item_export_file" : "item_import_file";
+                        int id = activity.getResources().getIdentifier(idName, "id", activity.getPackageName());
+                        if (id == 0) return;
+                        View button = activity.findViewById(id);
+                        if (button != null) button.performClick();
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
     }
 
     private BackupLauncher() {
