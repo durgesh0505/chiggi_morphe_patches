@@ -52,7 +52,7 @@ Runtime behaviour should still be confirmed on a device.
 | **Unlock Plus** | Forces the premium gate (`PremiumModule.t2()`) to true, unlocking all Nutrilio PLUS+ features (custom colors, all charts, app lock, all tracking options). Client-side only; does not grant a real Google Play subscription. | ✅ Applies cleanly; pending on-device confirmation |
 | **Disable analytics** | Disables Firebase/Google Analytics, Crashlytics and Performance via manifest flags and removes the advertising-id (`AD_ID`) permissions. Push notifications are unaffected. | ✅ Applies cleanly |
 | **Add food search bar** *(opt-in)* | Adds a live search box below each meal-time header in the day/meal form; typing filters that meal's food chips. Filtering only hides chips, so already-added items stay added. | ✅ Applies cleanly; pending on-device confirmation |
-| **Local backup & restore** *(on by default)* | Adds native **Export backup file** and **Import backup file** rows to the Backup screen (above *Restore Backup*) that drive Nutrilio's built-in (normally hidden) local file backup/restore. Exports everything — all entries, images and settings — to a portable `.nutrilio` file (a ZIP) via the share sheet, and restores one from a file you pick. No Google account or premium needed. | ✅ Applies cleanly; pending on-device confirmation |
+| **Local backup & restore** *(on by default)* | Adds a native **Local backup & restore** row to the Backup screen (above *Restore Backup*) that opens Nutrilio's built-in (normally hidden) local file backup/restore. There you can export everything — all entries, images and settings — to a portable `.nutrilio` file (a ZIP) via the share sheet, and restore one from a file you pick. No Google account or premium needed. | ✅ Applies cleanly; pending on-device confirmation |
 | **Change app name** *(on by default)* | Renames the app to **Nutrilio Morphe** (editable in patch options). | ✅ Verified |
 | **Change package name** *(on by default)* | Renames the package to **net.nutrilio.morphe** so it installs alongside the original (editable in patch options). | ✅ Verified |
 
@@ -122,7 +122,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
   repository URL):
   `https://raw.githubusercontent.com/durgesh0505/chiggi_morphe_patches/refs/heads/main/patches-bundle.json`
 - Or download the bundle directly:
-  [`patches-1.13.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.13.1.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK or the Nutrilio bundle with Morphe, then sideload the result onto
 your device (both ship as split APKs; Morphe handles merging and signing).
@@ -174,8 +174,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.13.0.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.13.0.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.13.1.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.13.1.mpp -o out.apk base.apk
 ```
 
 ## 📜 License

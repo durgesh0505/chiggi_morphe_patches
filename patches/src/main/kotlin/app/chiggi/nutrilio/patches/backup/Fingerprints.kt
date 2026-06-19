@@ -17,16 +17,3 @@ internal object BackupActivityOnCreateFingerprint : Fingerprint(
     parameters = listOf("Landroid/os/Bundle;"),
     definingClass = "Lnet/nutrilio/view/activities/backup/BackupActivity;",
 )
-
-/**
- * net.nutrilio.view.activities.DebugBackupActivity#onCreate(Bundle) — the hidden screen that hosts
- * the real local export (item_export_file) and import (item_import_file) buttons. Hooked to read the
- * morphe_backup_action extra and auto-click the requested button. NAMED class => version-robust.
- */
-internal object DebugBackupActivityOnCreateFingerprint : Fingerprint(
-    name = "onCreate",
-    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
-    returnType = "V",
-    parameters = listOf("Landroid/os/Bundle;"),
-    definingClass = "Lnet/nutrilio/view/activities/DebugBackupActivity;",
-)
