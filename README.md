@@ -1,7 +1,7 @@
 # 🧩 Chiggi Morphe Patches
 
 Third-party [Morphe](https://morphe.software) patches for **SonyLIV (Android TV)**,
-**Nutrilio (phone)**, **Threads (phone)** and **Arrow Puzzle (game)**.
+**Nutrilio (phone)**, **Threads (phone)**, **Arrow Puzzle (game)** and **CrazyGames (game portal)**.
 
 ## ❓ About
 
@@ -16,6 +16,7 @@ or the Morphe project**.
 | Nutrilio | `net.nutrilio` | `1.20.2` (phone) | split APKS bundle |
 | Threads | `com.instagram.barcelona` | `434.0.0.41.74` (phone) | Instagram codebase; split APKS bundle |
 | Arrow Puzzle | `com.easybrain.arrow.puzzle.game` | `1.7.0` (phone) | Easybrain Unity game; single universal APK |
+| CrazyGames | `com.crazygames.crazygamesapp` | `1.6.7` (phone) | Capacitor (Ionic) WebView portal; single universal APK |
 
 ## 🩹 SonyLIV patches
 
@@ -113,6 +114,24 @@ Runtime behaviour should still be confirmed on a device.
 - **Native anti-tamper** — the game ships `libsigner.so` / `libpglarmor.so`; a re-signed + renamed package may trip a native integrity check. If the app crashes or closes on launch, disable **Change package name** (and test the unrenamed build).
 - **Version** — pinned to `1.7.0`. The ad/analytics JNI facades (`AdsPlugin`/`AnalyticsPlugin`) keep stable names, but the central analytics collector is obfuscated and may need re-fingerprinting on updates.
 
+## 🩹 CrazyGames patches
+
+| Patch | What it does | Status |
+|-------|--------------|--------|
+| **Remove ads** | Neuters the native Capacitor AdMob plugin (`com.getcapacitor.community.admob.AdMob`): interstitial and banner shows resolve immediately with nothing displayed, and **rewarded ads auto-grant their reward without playing a video**. One named chokepoint covers AdMob and its Pangle / Audience Network mediation. | ✅ Applies cleanly; pending on-device confirmation |
+| **Disable analytics** | Stops native Sentry crash/telemetry upload by neutering the Capacitor Sentry plugin's native init (`SentryCapacitor.initNativeSdk`). Firebase auth, ConfigCat and push are unaffected. | ✅ Applies cleanly |
+| **Remove AD_ID permission** | Removes the advertising-id + Ad Services (Privacy Sandbox) permissions (`AD_ID`, `ACCESS_ADSERVICES_*`). | ✅ Applies cleanly |
+| **Change app name** *(on by default)* | Renames the app to **CrazyGames Morphe** (editable in patch options). | ✅ Verified |
+
+### Notes & limitations
+
+- **Capacitor WebView app** — most of CrazyGames is the remote Next.js portal (`app.crazygames.com`) rendered in a WebView. These patches only touch the **native** ad/telemetry shell.
+- **In-page web video ads remain** — the pre/mid-roll ads shown *inside* a game come from CrazyGames' servers as web content, not the native ad SDK, so they are not in the app bytecode and **cannot be removed here**. "Remove ads" kills the native interstitial/banner/rewarded layer only.
+- **Auto-reward is client-side** — the rewarded bypass fires the reward listener event the web grants on. If CrazyGames adds server-side reward verification, the reward simply won't be granted (no crash).
+- **Package kept** — the package is **not** renamed, so Google/Facebook/Apple sign-in keeps working. The patched app installs over / conflicts with the Play Store version rather than alongside it.
+- **Native anti-tamper** — the app ships ByteDance Pangle's `libpglarmor.so` / `libsigner.so`; a re-signed APK may trip a native integrity check (best case Pangle silently no-fills, worst case a launch crash — untested).
+- **Version** — pinned to `1.6.7`. The AdMob/Sentry plugin classes and method names are stable, but the Capacitor helper classes (`PluginCall`/`JSObject`/`resolve`) are R8-obfuscated, so the injected bytecode is version-specific.
+
 ## 📲 How to use
 
 These patches are distributed as a `.mpp` bundle for Morphe Manager.
@@ -122,7 +141,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
   repository URL):
   `https://raw.githubusercontent.com/durgesh0505/chiggi_morphe_patches/refs/heads/main/patches-bundle.json`
 - Or download the bundle directly:
-  [`patches-1.13.1.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.14.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK or the Nutrilio bundle with Morphe, then sideload the result onto
 your device (both ship as split APKs; Morphe handles merging and signing).
@@ -174,8 +193,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.13.1.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.13.1.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.14.0.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.14.0.mpp -o out.apk base.apk
 ```
 
 ## 📜 License

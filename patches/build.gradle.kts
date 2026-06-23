@@ -3,7 +3,7 @@ group = "app.chiggi.sonyliv"
 patches {
     about {
         name = "Chiggi Patches"
-        description = "Patches for SonyLIV (Android TV), Nutrilio, Threads and Arrow Puzzle"
+        description = "Patches for SonyLIV (Android TV), Nutrilio, Threads, Arrow Puzzle and CrazyGames"
         source = "git@github.com:durgesh0505/chiggi_morphe_patches.git"
         author = "durgesh0505"
         contact = "na"

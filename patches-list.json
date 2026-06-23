@@ -1,5 +1,5 @@
 {
-  "version": "v1.13.1",
+  "version": "v1.14.0",
   "patches": [
     {
       "name": "Add food search bar",
@@ -109,6 +109,41 @@
           "required": true,
           "type": "kotlin.String",
           "default": "Arrow Puzzle Morphe",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Change app name",
+      "description": "Changes the app name shown under the launcher icon. Set the desired name in the patch options.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.crazygames.crazygamesapp",
+          "name": "CrazyGames",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#0C0D14",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.6.7",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "appName",
+          "title": "App name",
+          "description": "The name shown under the app icon.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "CrazyGames Morphe",
           "values": null
         }
       ]
@@ -435,6 +470,31 @@
     },
     {
       "name": "Disable analytics",
+      "description": "Stops native Sentry crash/telemetry upload by neutering the Capacitor Sentry plugin's native init (io.sentry.capacitor.SentryCapacitor.initNativeSdk), so it resolves without starting the native Sentry SDK. Firebase auth, ConfigCat and push are unaffected.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.crazygames.crazygamesapp",
+          "name": "CrazyGames",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#0C0D14",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.6.7",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Disable analytics",
       "description": "Disables Firebase/Google Analytics, Crashlytics and Performance data collection via manifest flags and removes the advertising-id (AD_ID) permissions. Push notifications are unaffected.",
       "default": true,
       "dependencies": [],
@@ -610,6 +670,31 @@
     },
     {
       "name": "Remove AD_ID permission",
+      "description": "Removes the advertising-id and Ad Services (Privacy Sandbox) permissions so the device advertising id, Topics, Attribution and Custom Audience signals cannot be read for ad tracking.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.crazygames.crazygamesapp",
+          "name": "CrazyGames",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#0C0D14",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.6.7",
+              "isExperimental": false,
+              "minSdk": 24,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove AD_ID permission",
       "description": "Removes the advertising-id (AD_ID) permissions so the device advertising id cannot be read for ad tracking. Does not disable Meta's core analytics.",
       "default": true,
       "dependencies": [],
@@ -651,6 +736,31 @@
               "version": "1.7.0",
               "isExperimental": false,
               "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove ads",
+      "description": "Removes native ads (AdMob and its Pangle/Audience Network mediation) by neutering the Capacitor AdMob plugin (com.getcapacitor.community.admob.AdMob): interstitial and banner shows resolve immediately with nothing displayed, and rewarded ads auto-grant their reward without playing a video. Note: in-page web video ads served remotely inside the WebView (from crazygames.com) are not part of the app bytecode and cannot be removed here.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.crazygames.crazygamesapp",
+          "name": "CrazyGames",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#0C0D14",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.6.7",
+              "isExperimental": false,
+              "minSdk": 24,
               "description": null
             }
           ]
