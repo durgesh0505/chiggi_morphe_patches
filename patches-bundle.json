@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-06-23T18:30:00",
-  "description": "Chiggi Patches v1.14.0 — adds CrazyGames (com.crazygames.crazygamesapp 1.6.7), a Capacitor WebView app: Remove ads neuters the native Capacitor AdMob plugin (interstitial/banner resolve with nothing shown; rewarded ads auto-grant their reward without playing a video), Disable analytics stops native Sentry telemetry, Remove AD_ID strips the advertising-id/Ad Services permissions, and Change app name sets 'CrazyGames Morphe' (package kept so Google/Facebook/Apple login still works). Note: in-page web video ads served remotely inside the WebView are not in the app bytecode and remain. Apps: SonyLIV (com.sonyliv 6.23.1), Nutrilio (net.nutrilio 1.20.2), Threads (com.instagram.barcelona 434.0.0.41.74), Arrow Puzzle (com.easybrain.arrow.puzzle.game 1.7.0), CrazyGames (com.crazygames.crazygamesapp 1.6.7).",
-  "download_url": "https://github.com/durgesh0505/chiggi_morphe_patches/releases/download/v1.14.0/patches-1.14.0.mpp",
+  "created_at": "2026-06-23T19:00:00",
+  "description": "Chiggi Patches v1.14.1 — CrazyGames fix: adds 'Bypass Play license check', which neuters Google Play's Automatic Integrity Protection (PairIP) license check that, on a re-signed/sideloaded build, redirected the app to the Play Store ('get it on Google Play'). Required for the patched app to open. CrazyGames patches: Remove ads (native AdMob: interstitial/banner hidden; rewarded ads auto-grant their reward without playing a video), Disable analytics (native Sentry telemetry), Remove AD_ID, Change app name -> 'CrazyGames Morphe' (package kept so Google/Facebook/Apple login still works). Note: in-page web video ads served remotely inside the WebView are not in the app bytecode and remain. Apps: SonyLIV (com.sonyliv 6.23.1), Nutrilio (net.nutrilio 1.20.2), Threads (com.instagram.barcelona 434.0.0.41.74), Arrow Puzzle (com.easybrain.arrow.puzzle.game 1.7.0), CrazyGames (com.crazygames.crazygamesapp 1.6.7).",
+  "download_url": "https://github.com/durgesh0505/chiggi_morphe_patches/releases/download/v1.14.1/patches-1.14.1.mpp",
   "signature_download_url": "",
-  "version": "1.14.0"
+  "version": "1.14.1"
 }

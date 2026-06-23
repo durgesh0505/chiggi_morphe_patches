@@ -118,6 +118,7 @@ Runtime behaviour should still be confirmed on a device.
 
 | Patch | What it does | Status |
 |-------|--------------|--------|
+| **Bypass Play license check** *(on by default)* | Neuters Google Play's Automatic Integrity Protection (PairIP) license check (`com.pairip.licensecheck.LicenseClient`) that, on a re-signed/sideloaded build, redirects the app to the Play Store (*"get it on Google Play"*). **Required for the patched app to open.** | ✅ Applies cleanly; pending on-device confirmation |
 | **Remove ads** | Neuters the native Capacitor AdMob plugin (`com.getcapacitor.community.admob.AdMob`): interstitial and banner shows resolve immediately with nothing displayed, and **rewarded ads auto-grant their reward without playing a video**. One named chokepoint covers AdMob and its Pangle / Audience Network mediation. | ✅ Applies cleanly; pending on-device confirmation |
 | **Disable analytics** | Stops native Sentry crash/telemetry upload by neutering the Capacitor Sentry plugin's native init (`SentryCapacitor.initNativeSdk`). Firebase auth, ConfigCat and push are unaffected. | ✅ Applies cleanly |
 | **Remove AD_ID permission** | Removes the advertising-id + Ad Services (Privacy Sandbox) permissions (`AD_ID`, `ACCESS_ADSERVICES_*`). | ✅ Applies cleanly |
@@ -125,6 +126,7 @@ Runtime behaviour should still be confirmed on a device.
 
 ### Notes & limitations
 
+- **Play Automatic Integrity Protection (PairIP)** — CrazyGames ships with Google Play's PairIP licensing guard, which redirects any non-Play / re-signed install to the store. **Bypass Play license check** is required and on by default; without it the patched app won't open. This build has no PairIP code-virtualization (VMRunner), so neutering the license check is safe.
 - **Capacitor WebView app** — most of CrazyGames is the remote Next.js portal (`app.crazygames.com`) rendered in a WebView. These patches only touch the **native** ad/telemetry shell.
 - **In-page web video ads remain** — the pre/mid-roll ads shown *inside* a game come from CrazyGames' servers as web content, not the native ad SDK, so they are not in the app bytecode and **cannot be removed here**. "Remove ads" kills the native interstitial/banner/rewarded layer only.
 - **Auto-reward is client-side** — the rewarded bypass fires the reward listener event the web grants on. If CrazyGames adds server-side reward verification, the reward simply won't be granted (no crash).
@@ -141,7 +143,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
   repository URL):
   `https://raw.githubusercontent.com/durgesh0505/chiggi_morphe_patches/refs/heads/main/patches-bundle.json`
 - Or download the bundle directly:
-  [`patches-1.14.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.14.1.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK or the Nutrilio bundle with Morphe, then sideload the result onto
 your device (both ship as split APKs; Morphe handles merging and signing).
@@ -193,8 +195,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.14.0.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.14.0.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.14.1.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.14.1.mpp -o out.apk base.apk
 ```
 
 ## 📜 License
