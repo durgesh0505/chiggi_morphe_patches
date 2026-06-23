@@ -14,11 +14,14 @@ private val RESOLVE_EMPTY = """
 
 private const val EXTENSION_CLASS = "Lapp/chiggi/crazygames/extension/AdRewardPatch;"
 
-// Auto-grant a rewarded ad WITHOUT showing it: fire the reward listener event (the web grants on it)
-// and resolve the call. p0 = AdMob plugin instance, p1 = PluginCall, v0 = the event name.
-private fun grantReward(event: String) = """
-    const-string v0, "$event"
-    invoke-static {p0, p1, v0}, $EXTENSION_CLASS->grantReward(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/String;)V
+// Auto-grant a rewarded ad WITHOUT showing it. The web finishes (credits the reward + hides the
+// loading screen) on the Dismissed event, gated on the Reward event having fired first, so we pass
+// both and the extension fires them in order, then resolves. p0 = AdMob plugin, p1 = PluginCall,
+// v0 = reward event, v1 = dismissed event.
+private fun grantReward(rewardEvent: String, dismissEvent: String) = """
+    const-string v0, "$rewardEvent"
+    const-string v1, "$dismissEvent"
+    invoke-static {p0, p1, v0, v1}, $EXTENSION_CLASS->grantReward(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)V
     return-void
 """
 
@@ -52,11 +55,11 @@ val removeAdsPatch = bytecodePatch(
         // Rewarded shows -> auto-grant the reward without showing the ad.
         ShowRewardVideoAdFingerprint.method.addInstructions(
             0,
-            grantReward("onRewardedVideoAdReward"),
+            grantReward("onRewardedVideoAdReward", "onRewardedVideoAdDismissed"),
         )
         ShowRewardInterstitialAdFingerprint.method.addInstructions(
             0,
-            grantReward("onRewardedInterstitialAdReward"),
+            grantReward("onRewardedInterstitialAdReward", "onRewardedInterstitialAdDismissed"),
         )
     }
 }
