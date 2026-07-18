@@ -1,5 +1,5 @@
 {
-  "version": "v1.14.3",
+  "version": "v1.15.0",
   "patches": [
     {
       "name": "Add food search bar",
@@ -104,6 +104,31 @@
       "options": []
     },
     {
+      "name": "Bypass proxy/VPN security block",
+      "description": "Stops the \"Something is interfering with your secure connection\" (NET_201) screen that JioHotstar shows when it detects a VPN/proxy. The app self-enforces a proxy verdict the server sends via the X-Hs-SetProxyState response header: the client stores it and, when it is BLOCKED/RESTRICTED, shows the security error. This neuters the handler that stores that verdict, so the client keeps reporting a clean (unblocked) proxy state and never blocks itself. It also neuters the store's periodic proxy-state refresh coroutines, which would otherwise re-fetch endlessly (the verdict is never stored, so the TTL check always sees it expired) and make the app feel laggy/retrying. Note: if JioHotstar also refuses playback server-side based on the connection IP, video may still fail even though the error screen is gone.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
       "name": "Change app name",
       "description": "Changes the app name shown under the launcher icon. Set the desired name in the patch options.",
       "default": true,
@@ -169,6 +194,76 @@
           "required": true,
           "type": "kotlin.String",
           "default": "CrazyGames Morphe",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Change app name",
+      "description": "Changes the app name shown under the launcher icon. Set the desired name in the patch options.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "appName",
+          "title": "App name",
+          "description": "The name shown under the app icon.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "JioHotstar Morphe",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Change app name",
+      "description": "Changes the app name shown under the launcher icon. Set the desired name in the patch options.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.jio.media.jiotvplus",
+          "name": "Jiotv+: LiveTV & OTT",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#0C2074",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "2.6.4_2076",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "appName",
+          "title": "App name",
+          "description": "The name shown under the app icon.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "JioTV+ Morphe",
           "values": null
         }
       ]
@@ -274,6 +369,41 @@
           "required": true,
           "type": "kotlin.String",
           "default": "Threads Morphe",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Change app name",
+      "description": "Changes the app name shown under the launcher icon. Set the desired name in the patch options.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.vimtv",
+          "name": "Vi Movies and TV",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#EE1C25",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "10.8",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "appName",
+          "title": "App name",
+          "description": "The name shown under the app icon.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "Vi Movies and TV Morphe",
           "values": null
         }
       ]
@@ -520,6 +650,56 @@
     },
     {
       "name": "Disable analytics",
+      "description": "Disables Firebase/Google Analytics, Crashlytics and Performance data collection via manifest flags. CleverTap is left intact (it drives in-app UI and disabling it would crash the app). Push notifications are unaffected.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Disable analytics",
+      "description": "Disables Firebase/Google Analytics, Crashlytics and Performance data collection via manifest flags. CleverTap is left intact (it drives in-app UI and disabling it would crash the app). Push notifications are unaffected.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.jio.media.jiotvplus",
+          "name": "Jiotv+: LiveTV & OTT",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#0C2074",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "2.6.4_2076",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Disable analytics",
       "description": "Disables Firebase/Google Analytics, Crashlytics and Performance data collection via manifest flags and removes the advertising-id (AD_ID) permissions. Push notifications are unaffected.",
       "default": true,
       "dependencies": [],
@@ -536,6 +716,31 @@
               "version": "1.20.2",
               "isExperimental": false,
               "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Disable analytics",
+      "description": "Disables Firebase/Google Analytics, Crashlytics and Performance data collection via manifest flags. CleverTap is left intact (it drives in-app UI and disabling it would crash the app). Push notifications are unaffected.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.vimtv",
+          "name": "Vi Movies and TV",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#EE1C25",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "10.8",
+              "isExperimental": false,
+              "minSdk": 21,
               "description": null
             }
           ]
@@ -569,6 +774,81 @@
       "options": []
     },
     {
+      "name": "Enable all codecs",
+      "description": "Forces all video codecs (H265/VP9/AV1) and 4K support on by bypassing the capability/blacklist checks. Off by default: forcing a codec/resolution a TV cannot actually decode can break playback. Approach adapted from Paresh-Maheshwari's patches (GPL-3.0).",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Enable screen mirroring",
+      "description": "Allows playback to continue while screen mirroring or an external HDMI display is connected, instead of showing the multiple-display block. Approach adapted from Paresh-Maheshwari's patches (GPL-3.0).",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Enable screenshots",
+      "description": "Removes screenshot and screen-recording restrictions on the app UI (the DRM video itself stays protected by Widevine). Approach adapted from Paresh-Maheshwari's patches (GPL-3.0).",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
       "name": "Food search bar layout",
       "description": "Adds the search box view below each meal-time header in the day/meal form. Enabled automatically by \"Add food search bar\".",
       "default": false,
@@ -586,6 +866,31 @@
               "version": "1.20.2",
               "isExperimental": false,
               "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Force HDR10",
+      "description": "Forces HDR10 / HDR10+ / Dolby Vision playback by bypassing the capability/blacklist check. Off by default: forcing HDR on a panel that cannot render it can wash out or break playback. Approach adapted from Paresh-Maheshwari's patches (GPL-3.0).",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
               "description": null
             }
           ]
@@ -669,6 +974,81 @@
       "options": []
     },
     {
+      "name": "Make installable on TV",
+      "description": "For PHONE builds only: makes a phone APK installable on Android TV / Google TV by marking touchscreen, portrait-screen and other phone-only features optional (they are why the TV installer reports \"not compatible with your TV\"), declaring the leanback feature optional, and adding the leanback launcher category. Off by default because the JioHotstar TV build (.apkm) is already a native leanback D-pad app and does not need it. Note: a phone build patched this way still shows a portrait touch UI — a mouse or air-remote may be needed since it expects touch, not a D-pad.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Premium unlock",
+      "description": "Unlocks premium UI state: shows the subscribed badge, enables the download button for all content and suppresses subscription nudges during playback. This is a UI unlock only — it does not grant access to DRM content you are not entitled to. Approach adapted from Paresh-Maheshwari's patches (GPL-3.0).",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Premium unlock (UI)",
+      "description": "Forces the client 'subscribed' flags true so premium UI state shows unlocked. OFF by default: Vi Movies and TV enforces entitlement server-side with Widevine DRM, so this does NOT grant content you are not entitled to — it only changes UI, and content that appears playable may still be refused by the server. Cosmetic UI change only.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.vimtv",
+          "name": "Vi Movies and TV",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#EE1C25",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "10.8",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
       "name": "Remove AD_ID permission",
       "description": "Removes the advertising-id and Ad Services (Privacy Sandbox) permissions so the device advertising id, Topics and Attribution signals cannot be read for ad tracking.",
       "default": true,
@@ -720,6 +1100,56 @@
     },
     {
       "name": "Remove AD_ID permission",
+      "description": "Removes the advertising-id and Ad Services (Privacy Sandbox) permissions so the device advertising id, Attribution and Topics signals cannot be read for ad tracking.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove AD_ID permission",
+      "description": "Removes the advertising-id and Ad Services (Privacy Sandbox) permissions so the device advertising id, Attribution and Topics signals cannot be read for ad tracking.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.jio.media.jiotvplus",
+          "name": "Jiotv+: LiveTV & OTT",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#0C2074",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "2.6.4_2076",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove AD_ID permission",
       "description": "Removes the advertising-id (AD_ID) permissions so the device advertising id cannot be read for ad tracking. Does not disable Meta's core analytics.",
       "default": true,
       "dependencies": [],
@@ -736,6 +1166,31 @@
               "version": "434.0.0.41.74",
               "isExperimental": false,
               "minSdk": 28,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove AD_ID permission",
+      "description": "Removes the advertising-id and Ad Services (Privacy Sandbox) permissions so the device advertising id, Attribution and Topics signals cannot be read for ad tracking.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.vimtv",
+          "name": "Vi Movies and TV",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#EE1C25",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "10.8",
+              "isExperimental": false,
+              "minSdk": 21,
               "description": null
             }
           ]
@@ -794,6 +1249,81 @@
       "options": []
     },
     {
+      "name": "Remove ads",
+      "description": "Removes pre-roll, mid-roll and live-match video ads by clearing the SSAI ad tag in the AdMetadata constructor, so the client requests a clean, non-ad-stitched stream at the source. This surgical approach lets the app's own ad machinery see \"no ads\" and behave normally (no retry loops, no empty ad slots). Approach adapted from Paresh-Maheshwari's patches (GPL-3.0).",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove ads",
+      "description": "Removes JioTV+ ads. Display/banner ads are neutered at the JioAds SDK entry (JioAdView.loadAd / cacheAd), and player video ads (pre-roll, mid-roll, post-roll and SSAI stitched ads) are removed by no-oping VMAPAdsHelper.fetchAds — the single method that fetches and sets up all player ads from the playback-rights model.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.jio.media.jiotvplus",
+          "name": "Jiotv+: LiveTV & OTT",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#0C2074",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "2.6.4_2076",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove ads",
+      "description": "Removes pre-roll, mid-roll and SSAI video ads. The player builds its IMA/SSAI ad-tag URL from AdUrlResponse.getAdUrlTypes(); forcing that to null (and the TorcAiAdConfig.isAdEnabled() gate to false) means no ad tag is ever loaded, so no ad plays.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.vimtv",
+          "name": "Vi Movies and TV",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#EE1C25",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "10.8",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
       "name": "Remove video ads",
       "description": "Forces PlayerUtil.isAdEnable() to false so the player neither requests nor plays ads. Removes client-side (Google IMA) ads. Server-side stitched ads on some live content (MediaTailor/SSAI) may still appear.",
       "default": true,
@@ -811,6 +1341,31 @@
               "version": "6.23.1",
               "isExperimental": false,
               "minSdk": 22,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Spoof device-integrity self-report",
+      "description": "Forces JioHotstar's security-suite checks (VPN, proxy, root, debugger, open ports, suspicious files) to report false, so the device-integrity attestation the app sends to the server looks clean. Helps rooted/modded devices and complements the VPN bypass. Note: the attestation is also server-validated (signed nonce) and the server sees the connection IP, so this is not guaranteed to defeat a server-side check on its own.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
               "description": null
             }
           ]

@@ -1,7 +1,7 @@
 # 🧩 Chiggi Morphe Patches
 
-Third-party [Morphe](https://morphe.software) patches for **SonyLIV (Android TV)**,
-**Nutrilio (phone)**, **Threads (phone)**, **Arrow Puzzle (game)** and **CrazyGames (game portal)**.
+Third-party [Morphe](https://morphe.software) patches for **SonyLIV**, **Nutrilio**, **Threads**,
+**Arrow Puzzle**, **CrazyGames**, **JioHotstar (TV)**, **Vi Movies and TV (TV)** and **JioTV+ (TV)**.
 
 ## ❓ About
 
@@ -17,6 +17,9 @@ or the Morphe project**.
 | Threads | `com.instagram.barcelona` | `434.0.0.41.74` (phone) | Instagram codebase; split APKS bundle |
 | Arrow Puzzle | `com.easybrain.arrow.puzzle.game` | `1.7.0` (phone) | Easybrain Unity game; single universal APK |
 | CrazyGames | `com.crazygames.crazygamesapp` | `1.6.7` (phone) | Capacitor (Ionic) WebView portal; single universal APK |
+| JioHotstar | `in.startv.hotstar` | `26.06.22.3` (Android TV) | leanback split bundle (.apkm); heavily R8-obfuscated |
+| Vi Movies and TV | `com.vimtv` | `10.8` (Android TV) | YuppTV OTT; leanback split bundle |
+| JioTV+ | `com.jio.media.jiotvplus` | `2.6.4_2076` (Android TV) | PatchWall UI; leanback split bundle |
 
 ## 🩹 SonyLIV patches
 
@@ -134,6 +137,52 @@ Runtime behaviour should still be confirmed on a device.
 - **Native anti-tamper** — the app ships ByteDance Pangle's `libpglarmor.so` / `libsigner.so`; a re-signed APK may trip a native integrity check (best case Pangle silently no-fills, worst case a launch crash — untested).
 - **Version** — pinned to `1.6.7`. The AdMob/Sentry plugin classes and method names are stable, but the Capacitor helper classes (`PluginCall`/`JSObject`/`resolve`) are R8-obfuscated, so the injected bytecode is version-specific.
 
+## 🩹 JioHotstar patches
+
+Android TV build (`in.startv.hotstar`, leanback), supplied as the `.apkm` split bundle.
+
+| Patch | What it does | Status |
+|-------|--------------|--------|
+| **Bypass proxy/VPN security block** *(on by default)* | Defeats the "Something is interfering with your secure connection" (NET_201) screen shown on a VPN. The app self-enforces a server-sent proxy verdict (`X-Hs-SetProxyState`) via the `ProxyStateInterceptor`; this neuters the handler that stores that verdict (client stays "unblocked") **and** the periodic proxy-state refresh coroutines that otherwise re-fetch endlessly and make the app lag. | ✅ Device-confirmed (India VPN works, playback OK) |
+| **Remove ads** | Clears the SSAI `ssaiTag` in the `AdMetadata` constructor so the client requests a clean, non-ad-stitched stream (removes mid/pre-roll), and hides the home masthead banner render. | ✅ Applies cleanly |
+| **Spoof device-integrity self-report** | Forces the `securityLib` checks (VPN/proxy/root/debugger/ports/files) false so the attestation the app sends looks clean. | ✅ Applies cleanly |
+| **Disable analytics** / **Remove AD_ID** | Firebase flags off (CleverTap left intact) + strips AD_ID/AdServices perms. | ✅ Applies cleanly |
+| **Premium unlock (UI)** | `MyPageData.getIsSubscribed`→true, `DownloadInfo.getIsPremium`→false, subscription nudge suppressed. UI only — real content stays server + Widevine gated. | ✅ Applies cleanly |
+| **Enable screenshots / screen mirroring / all codecs+4K / HDR10** | FLAG_SECURE off (UI only), multi-display block relaxed, codec/HDR capability checks forced on. | ✅ Applies cleanly |
+| **Change app name** *(on by default)* | Renames to **JioHotstar Morphe** (package kept). | ✅ Verified |
+
+### Notes & limitations
+
+- **VPN bypass is novel** — it is not in any public reference set; the block is client-enforced off a server verdict, so neutering the client store defeats it. If JioHotstar adds pure server-side IP playback enforcement in future, this could stop working.
+- **Corner brand watermark cannot be removed** — it is forensic/stream-baked (server-side), not a client render.
+- **Signature bypass not needed / not ported** — the re-signed build already plays, and the reference `getSignFromJNI` tamper hook does not exist in this version.
+- Ad approach credited to [Paresh-Maheshwari](https://gitlab.com/Paresh-Maheshwari/paresh-patches) (GPL-3.0) for the premium/screenshot/mirroring/codecs/HDR hooks.
+
+## 🩹 Vi Movies and TV patches
+
+Android TV build (`com.vimtv`, YuppTV OTT). No anti-tamper/VPN — clean re-sign.
+
+| Patch | What it does | Status |
+|-------|--------------|--------|
+| **Remove ads** | Forces `AdUrlResponse.getAdUrlTypes()`→null and `TorcAiAdConfig.isAdEnabled()`→false, so the player builds no IMA/SSAI ad-tag URL and no pre/mid-roll ad loads. | ✅ Applies cleanly |
+| **Disable analytics** / **Remove AD_ID** | Firebase flags off (CleverTap left) + strips AD_ID/AdServices perms. | ✅ Applies cleanly |
+| **Change app name** *(on by default)* | Renames to **Vi Movies and TV Morphe** (package kept). | ✅ Verified |
+| **Premium unlock (UI)** | Forces client `isSubscribed` flags true. UI only — content stays server + Widevine gated (may show items as available that the server still refuses). | ✅ Applies cleanly |
+
+## 🩹 JioTV+ patches
+
+Android TV build (`com.jio.media.jiotvplus`, PatchWall UI). No anti-tamper/VPN — clean re-sign.
+
+| Patch | What it does | Status |
+|-------|--------------|--------|
+| **Remove ads** | Neuters JioAds display/banner ads (`JioAdView.loadAd`/`cacheAd`) and all player video ads — pre/mid/post-roll + SSAI stitch — by no-oping `VMAPAdsHelper.fetchAds`. | ✅ Applies cleanly |
+| **Disable analytics** / **Remove AD_ID** | Firebase flags off (CleverTap left) + strips AD_ID/AdServices perms. | ✅ Applies cleanly |
+| **Change app name** *(on by default)* | Renames to **JioTV+ Morphe** (package kept). | ✅ Verified |
+
+### Notes & limitations
+
+- **No premium patch** — JioTV+ has no client paywall flag (the `isPremium` field is ad-request telemetry). Content is server-entitlement + Widevine gated, so there is nothing client-side to unlock.
+
 ## 📲 How to use
 
 These patches are distributed as a `.mpp` bundle for Morphe Manager.
@@ -143,7 +192,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
   repository URL):
   `https://raw.githubusercontent.com/durgesh0505/chiggi_morphe_patches/refs/heads/main/patches-bundle.json`
 - Or download the bundle directly:
-  [`patches-1.14.3.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.15.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK or the Nutrilio bundle with Morphe, then sideload the result onto
 your device (both ship as split APKs; Morphe handles merging and signing).
@@ -195,8 +244,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.14.3.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.14.3.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.15.0.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.15.0.mpp -o out.apk base.apk
 ```
 
 ## 📜 License
