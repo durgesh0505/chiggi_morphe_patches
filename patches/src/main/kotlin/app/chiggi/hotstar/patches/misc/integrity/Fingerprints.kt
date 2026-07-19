@@ -54,3 +54,20 @@ internal object IsRootedFingerprint : Fingerprint(
     parameters = listOf("Ljava/lang/Object;"),
     definingClass = "Lcom/hotstar/securityLib/AppSuiteImpl\$getIsRooted\$1;",
 )
+
+/**
+ * The device-attestation blob data class (LKg/b;) sent to Hotstar's server. Its 34-String
+ * constructor carries the device fingerprint plus 8 security flags in this order (param index):
+ *  25 IsEmulator, 26 IsRooted, 27 IsTampered, 28 IsProxy, 29 isVpnActive,
+ *  30 isSuspiciousFileExists, 31 isPortsOpen, 32 isDebuggerEnabled.
+ * IsTampered comes from the native tamper checker (libtoolChecker), NOT the securityLib lazy checks,
+ * so it was reported honestly as "true" on a re-signed build — which is what the server flags
+ * (error NM-4290, "suspicious activity ... locked 24 hours"). Forcing all 8 flags to "false" at the
+ * constructor makes the whole attestation report a clean device at one chokepoint.
+ */
+internal object AttestationBlobConstructorFingerprint : Fingerprint(
+    name = "<init>",
+    returnType = "V",
+    parameters = List(34) { "Ljava/lang/String;" },
+    definingClass = "LKg/b;",
+)

@@ -32,7 +32,10 @@ val proxyStateBypassPatch = bytecodePatch(
         // Never store the server's BLOCKED verdict -> client stays unblocked, no NET_201.
         ProxyStateVerdictHandlerFingerprint.method.addInstructions(0, RETURN_UNIT)
 
-        // Stop the endless periodic re-fetch caused by the never-stored (always-expired) state.
+        // Stop the endless periodic re-fetch caused by the never-stored (always-expired) state
+        // (fixes the app-wide lag). Note: the NET_201 screen returning on some VPNs is server-side
+        // IP flagging of that specific exit IP, not this neuter — switching to a clean India VPN
+        // server clears it.
         EnrichRefreshmentFingerprint.method.addInstructions(0, RETURN_UNIT)
         LocationRefreshmentFingerprint.method.addInstructions(0, RETURN_UNIT)
     }

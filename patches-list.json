@@ -1,5 +1,5 @@
 {
-  "version": "v1.15.0",
+  "version": "v1.15.1",
   "patches": [
     {
       "name": "Add food search bar",
@@ -1341,6 +1341,31 @@
               "version": "6.23.1",
               "isExperimental": false,
               "minSdk": 22,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Spoof device attestation",
+      "description": "Forces the device-attestation blob JioHotstar sends to the server to report a clean device (IsTampered/IsRooted/IsProxy/isVpnActive/IsEmulator/suspicious-file/open-ports/debugger all false). The re-signed build otherwise sends IsTampered=true, which the server flags as \"suspicious activity\" and locks the account for 24 hours (error NM-4290). WARNING: this reduces one client-sent signal but does NOT make the account safe — the server still sees the VPN exit IP, and an already-flagged account stays on Hotstar's radar. Do not run this on an account you cannot afford to lose.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "in.startv.hotstar",
+          "name": "JioHotstar",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#1F80E0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "26.06.22.3",
+              "isExperimental": false,
+              "minSdk": 21,
               "description": null
             }
           ]

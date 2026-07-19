@@ -146,6 +146,7 @@ Android TV build (`in.startv.hotstar`, leanback), supplied as the `.apkm` split 
 | **Bypass proxy/VPN security block** *(on by default)* | Defeats the "Something is interfering with your secure connection" (NET_201) screen shown on a VPN. The app self-enforces a server-sent proxy verdict (`X-Hs-SetProxyState`) via the `ProxyStateInterceptor`; this neuters the handler that stores that verdict (client stays "unblocked") **and** the periodic proxy-state refresh coroutines that otherwise re-fetch endlessly and make the app lag. | ✅ Device-confirmed (India VPN works, playback OK) |
 | **Remove ads** | Clears the SSAI `ssaiTag` in the `AdMetadata` constructor so the client requests a clean, non-ad-stitched stream (removes mid/pre-roll), and hides the home masthead banner render. | ✅ Applies cleanly |
 | **Spoof device-integrity self-report** | Forces the `securityLib` checks (VPN/proxy/root/debugger/ports/files) false so the attestation the app sends looks clean. | ✅ Applies cleanly |
+| **Spoof device attestation** | Forces all 8 security flags in the attestation blob (`Kg/b`) — including **`IsTampered`** (from the native tamper checker, which the self-report patch above does NOT cover) — to `false` at the constructor. The re-signed build otherwise sends `IsTampered=true`, which flags the account and locks it 24h (**error NM-4290**). ⚠️ Only removes a client-sent signal; the server still sees the VPN IP. | ✅ Applies cleanly |
 | **Disable analytics** / **Remove AD_ID** | Firebase flags off (CleverTap left intact) + strips AD_ID/AdServices perms. | ✅ Applies cleanly |
 | **Premium unlock (UI)** | `MyPageData.getIsSubscribed`→true, `DownloadInfo.getIsPremium`→false, subscription nudge suppressed. UI only — real content stays server + Widevine gated. | ✅ Applies cleanly |
 | **Enable screenshots / screen mirroring / all codecs+4K / HDR10** | FLAG_SECURE off (UI only), multi-display block relaxed, codec/HDR capability checks forced on. | ✅ Applies cleanly |
@@ -153,7 +154,9 @@ Android TV build (`in.startv.hotstar`, leanback), supplied as the `.apkm` split 
 
 ### Notes & limitations
 
+- **⚠️ Account-ban risk** — JioHotstar does server-side fraud analysis. Re-signing + VPN + these client patches got a real account **locked 24h for "suspicious activity" (NM-4290)** because the attestation blob was sending `IsTampered=true`. The **Spoof device attestation** patch fixes that client-sent signal, but the server still sees your VPN exit IP and an already-flagged account stays on their radar. **Do not run this on an account you cannot afford to lose — test on a throwaway Jio number first.** For a real/paid subscription, use the official app.
 - **VPN bypass is novel** — it is not in any public reference set; the block is client-enforced off a server verdict, so neutering the client store defeats it. If JioHotstar adds pure server-side IP playback enforcement in future, this could stop working.
+- **Flagged VPN exit IP** — if the security error or a lock appears, the specific VPN server's IP is likely blocklisted; switching to a different (ideally residential/dedicated) India IP clears it. Multiple apps breaking at once on the same VPN = flagged IP, not a patch fault.
 - **Corner brand watermark cannot be removed** — it is forensic/stream-baked (server-side), not a client render.
 - **Signature bypass not needed / not ported** — the re-signed build already plays, and the reference `getSignFromJNI` tamper hook does not exist in this version.
 - Ad approach credited to [Paresh-Maheshwari](https://gitlab.com/Paresh-Maheshwari/paresh-patches) (GPL-3.0) for the premium/screenshot/mirroring/codecs/HDR hooks.
@@ -192,7 +195,7 @@ These patches are distributed as a `.mpp` bundle for Morphe Manager.
   repository URL):
   `https://raw.githubusercontent.com/durgesh0505/chiggi_morphe_patches/refs/heads/main/patches-bundle.json`
 - Or download the bundle directly:
-  [`patches-1.15.0.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
+  [`patches-1.15.1.mpp`](https://github.com/durgesh0505/chiggi_morphe_patches/releases/latest)
 
 Patch the SonyLIV Android TV APK or the Nutrilio bundle with Morphe, then sideload the result onto
 your device (both ship as split APKs; Morphe handles merging and signing).
@@ -244,8 +247,8 @@ Then build the patch bundle:
 List or apply the patches with [morphe-cli](https://github.com/MorpheApp/morphe-cli):
 
 ```bash
-java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.15.0.mpp -v
-java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.15.0.mpp -o out.apk base.apk
+java -jar morphe-cli.jar list-patches --patches=patches/build/libs/patches-1.15.1.mpp -v
+java -jar morphe-cli.jar patch -p patches/build/libs/patches-1.15.1.mpp -o out.apk base.apk
 ```
 
 ## 📜 License
