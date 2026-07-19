@@ -774,6 +774,31 @@
       "options": []
     },
     {
+      "name": "Disable forced update",
+      "description": "Removes the 'update available' popup (both the forced/non-cancelable and the optional variant) shown on splash/home. The pinned 10.8 re-signed build would otherwise be nagged — or hard-blocked — to update whenever the server reports a newer version. The popup is gated on ClientInfo.getVersionNumber(); forcing it to \"0\" makes the version check in SplashActivity and MainActivity conclude no update is needed.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.vimtv",
+          "name": "Vi Movies and TV",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#EE1C25",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "10.8",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
       "name": "Enable all codecs",
       "description": "Forces all video codecs (H265/VP9/AV1) and 4K support on by bypassing the capability/blacklist checks. Off by default: forcing a codec/resolution a TV cannot actually decode can break playback. Approach adapted from Paresh-Maheshwari's patches (GPL-3.0).",
       "default": true,
@@ -1301,6 +1326,31 @@
     {
       "name": "Remove ads",
       "description": "Removes pre-roll, mid-roll and SSAI video ads. The player builds its IMA/SSAI ad-tag URL from AdUrlResponse.getAdUrlTypes(); forcing that to null (and the TorcAiAdConfig.isAdEnabled() gate to false) means no ad tag is ever loaded, so no ad plays.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.vimtv",
+          "name": "Vi Movies and TV",
+          "description": null,
+          "apkFileType": "APKS",
+          "appIconColor": "#EE1C25",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "10.8",
+              "isExperimental": false,
+              "minSdk": 21,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove player watermark",
+      "description": "Removes the per-content watermark/logo overlaid on the video (the one that changes depending on what you play). The player only shows the watermark ImageView when Configs.getWaterMarkInfoOnPlayer() returns non-empty JSON; forcing that getter to null makes the player's own guard hide the overlay. Client render only, so this is fully removable (it is not baked into the stream).",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [
