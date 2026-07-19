@@ -1497,6 +1497,31 @@
         }
       ],
       "options": []
+    },
+    {
+      "name": "Unlock premium",
+      "description": "Unlocks the paid 'premium' upgrade (IAP com.mediocre.commute.premium) without a purchase. The native game asks the Java billing bridge AndroidStore whether the product is owned via isProductIdRestored() and reads the store status via getStatusAsString(); this forces the former to true and the latter to \"2\" (STORE_SUCCEEDED), so the game treats premium as owned. No Play purchase is made or needed. Note: the game's actual entitlement logic is in native libcommute.so, which cannot be patched here — if it independently re-verifies the purchase, this may not take effect.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.mediocre.commute",
+          "name": "Does Not Commute",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#2E7D6F",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.5.5",
+              "isExperimental": false,
+              "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
     }
   ]
 }
