@@ -18,6 +18,10 @@ private val CLEAN_ATTESTATION = """
     const-string p30, "false"
     const-string p31, "false"
     const-string p32, "false"
+	invoke-static {}, Lapp/chiggi/hotstar/extension/DeviceIdSpoof;->gaid()Ljava/lang/String;
+    move-result-object p33
+    invoke-static {}, Lapp/chiggi/hotstar/extension/DeviceIdSpoof;->widevineId()Ljava/lang/String;
+    move-result-object p34
 """
 
 @Suppress("unused")
@@ -29,10 +33,13 @@ val spoofAttestationBlobPatch = bytecodePatch(
         "server flags as \"suspicious activity\" and locks the account for 24 hours (error NM-4290). " +
         "WARNING: this reduces one client-sent signal but does NOT make the account safe — the " +
         "server still sees the VPN exit IP, and an already-flagged account stays on Hotstar's radar. " +
+		"It also randomizes the reported GAID and Widevine device id so a device Hotstar has " +
+        "blocklisted presents as fresh (playback is unaffected — the DRM Widevine is separate). " +
         "Do not run this on an account you cannot afford to lose.",
     default = true,
 ) {
     compatibleWith(COMPATIBILITY_HOTSTAR)
+	extendWith("extensions/extension.mpe")
 
     execute {
         AttestationBlobConstructorFingerprint.method.addInstructions(0, CLEAN_ATTESTATION)
