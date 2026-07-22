@@ -1,3 +1,9 @@
+## [1.17.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.16.0...v1.17.0) (2026-07-22)
+
+### ✨ New Features
+
+* **cryanalyzer:** remove analysis limit (unlimited, no rewarded-ad) ([8d34ac9](https://github.com/durgesh0505/chiggi_morphe_patches/commit/8d34ac9fdd7eb9060979e15e7bfd55a20c869e1b))
+
 ## [1.16.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.15.1...v1.16.0) (2026-07-22)
 
 ### 🐛 Bug Fixes
