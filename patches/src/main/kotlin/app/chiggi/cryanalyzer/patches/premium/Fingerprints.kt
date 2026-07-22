@@ -14,3 +14,17 @@ internal object IsPurchasedFingerprint : Fingerprint(
     name = "isPurchased",
     returnType = "Z",
 )
+
+/**
+ * jp.firstascent.cryanalyzer.utility.data.UserData#getRestrictionRelease() -> Boolean. This is the
+ * app's master "restrictions removed" flag (set from the purchase state via PurchaseInfo). It gates
+ * everything: the recording/analysis limit (RecordFragment: `getRestrictionRelease() ||
+ * getAnalyzeCountByReward() > 0`), ad display, the free-analysis reminder notification, and the
+ * billing UI. Forcing it to TRUE gives unlimited analyses with no ads and no free-count/rewarded-ad
+ * requirement. Returns a boxed Boolean (callers use .booleanValue()), so TRUE avoids any NPE.
+ */
+internal object GetRestrictionReleaseFingerprint : Fingerprint(
+    definingClass = "Ljp/firstascent/cryanalyzer/utility/data/UserData;",
+    name = "getRestrictionRelease",
+    returnType = "Ljava/lang/Boolean;",
+)

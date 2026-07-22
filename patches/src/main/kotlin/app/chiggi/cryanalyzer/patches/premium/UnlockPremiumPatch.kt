@@ -7,18 +7,26 @@ import app.morphe.patcher.patch.bytecodePatch
 @Suppress("unused")
 val unlockPremiumPatch = bytecodePatch(
     name = "Unlock premium",
-    description = "Unlocks Cry Analyzer premium (the monthly / half-year subscription) without a " +
-        "purchase by forcing BillingClientWrapper.isPurchased(...) to return true, so every " +
-        "subscription/ownership check reports the product as owned. In this app's freemium model " +
-        "that also removes the ads gated behind premium. No Google Play purchase is made or needed.",
+    description = "Unlocks Cry Analyzer premium and removes all usage limits without a purchase. " +
+        "Forces BillingClientWrapper.isPurchased(...) true (every ownership check reports owned) and " +
+        "UserData.getRestrictionRelease() true (the master 'restrictions removed' flag). Together " +
+        "this gives unlimited analyses with no free-count / rewarded-ad requirement, no ads, and no " +
+        "free-analysis reminder nag. No Google Play purchase is made or needed.",
     default = true,
 ) {
     compatibleWith(COMPATIBILITY_CRYANALYZER)
 
     execute {
+        // "Is the product purchased?" -> always true.
         IsPurchasedFingerprint.method.addInstructions(0, """
             const/4 v0, 0x1
             return v0
+        """)
+
+        // Master "restrictions removed" flag -> always TRUE: unlimited analyses, no ads, no nag.
+        GetRestrictionReleaseFingerprint.method.addInstructions(0, """
+            sget-object v0, Ljava/lang/Boolean;->TRUE:Ljava/lang/Boolean;
+            return-object v0
         """)
     }
 }
