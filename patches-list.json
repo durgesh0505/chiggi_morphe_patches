@@ -1500,6 +1500,31 @@
     },
     {
       "name": "Unlock premium",
+      "description": "Unlocks AYA Baby AI premium without a purchase by forcing the Apphud SDK entitlement checks Apphud.hasPremiumAccess() and hasActiveSubscription() to return true. The app gates premium features on these, so the app treats the user as subscribed. Because it uses an ads-or-premium model, unlocking premium also stops the Appodeal/AdMob ads. No Google Play purchase is made or needed.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.cry.analyzer",
+          "name": "AYA Baby AI",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#F5A8C0",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "6.8",
+              "isExperimental": false,
+              "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Unlock premium",
       "description": "Unlocks the paid 'premium' upgrade (IAP com.mediocre.commute.premium) without a purchase. The native game asks the Java billing bridge AndroidStore whether the product is owned via isProductIdRestored() and reads the store status via getStatusAsString(); this forces the former to true and the latter to \"2\" (STORE_SUCCEEDED), so the game treats premium as owned. No Play purchase is made or needed. Note: the game's actual entitlement logic is in native libcommute.so, which cannot be patched here — if it independently re-verifies the purchase, this may not take effect.",
       "default": true,
       "dependencies": [],
@@ -1516,6 +1541,31 @@
               "version": "1.5.5",
               "isExperimental": false,
               "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Unlock premium",
+      "description": "Unlocks Cry Analyzer premium (the monthly / half-year subscription) without a purchase by forcing BillingClientWrapper.isPurchased(...) to return true, so every subscription/ownership check reports the product as owned. In this app's freemium model that also removes the ads gated behind premium. No Google Play purchase is made or needed.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "jp.firstascent.cryanalyzer",
+          "name": "Cry Analyzer",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#4FC3F7",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "1.3.28",
+              "isExperimental": false,
+              "minSdk": 23,
               "description": null
             }
           ]
