@@ -1,3 +1,9 @@
+## [1.18.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.17.0...v1.18.0) (2026-07-23)
+
+### ✨ New Features
+
+* **jiohotstar:** spoof device id (ANDROID_ID) to resolve device-logged-out ([7c4f109](https://github.com/durgesh0505/chiggi_morphe_patches/commit/7c4f10902dd72dba20d429c1c86abd11de24bf85))
+
 ## [1.17.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.16.0...v1.17.0) (2026-07-22)
 
 ### ✨ New Features
