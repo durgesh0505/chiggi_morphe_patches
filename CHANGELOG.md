@@ -1,3 +1,9 @@
+## [1.19.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.18.0...v1.19.0) (2026-08-20)
+
+### ✨ New Features
+
+* add ZEE5 (Android TV), tag TV apps, make TV builds phone-patch-safe ([a599783](https://github.com/durgesh0505/chiggi_morphe_patches/commit/a5997832ddf87302d3685647d4a450a518c45fb6))
+
 ## [1.18.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.17.0...v1.18.0) (2026-07-23)
 
 ### ✨ New Features
