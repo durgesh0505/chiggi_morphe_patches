@@ -19,10 +19,13 @@ object Constants {
     // re-signed build may be rejected on the server regardless of these patches — verify login/
     // playback on device.
     val COMPATIBILITY_HOTSTAR = Compatibility(
-        name = "JioHotstar",
+        name = "JioHotstar (Android TV)",
         packageName = "in.startv.hotstar",
-        // Android TV split bundle (base + armeabi-v7a/arm64-v8a config splits) supplied as .apkm.
-        apkFileType = ApkFileType.APKM,
+        // Android TV (leanback) build. Input is a dual-ABI UNIVERSAL apk merged from the .apkm (base +
+        // arm64-v8a + armeabi-v7a splits) via APKEditor, so patching with Morphe on a phone can't drop
+        // the TV's arch — the output installs on both 64-bit and 32-bit Android TV / Fire TV / Chromecast.
+        // Build/supply workspace/input/hotstar/hotstar-universal.apk.
+        apkFileType = ApkFileType.APK,
         appIconColor = 0x1F80E0, // Hotstar brand blue fallback (Manager extracts the real icon)
         targets = listOf(
             AppTarget(

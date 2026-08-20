@@ -13,7 +13,7 @@ object Constants {
     // any client "subscribed" flag is UI-only. Distributed as a split bundle (base + v7a + tvdpi +
     // en); supply as .apks/.apkm. Pinned to 10.8.
     val COMPATIBILITY_VIMTV = Compatibility(
-        name = "Vi Movies and TV",
+        name = "Vi Movies and TV (Android TV)",
         packageName = "com.vimtv",
         // Split bundle (base + config.armeabi_v7a + config.tvdpi + config.en).
         apkFileType = ApkFileType.APKS,

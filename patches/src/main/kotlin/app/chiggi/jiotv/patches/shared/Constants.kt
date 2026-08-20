@@ -14,7 +14,7 @@ object Constants {
     // premium unlock. Distributed as a split bundle (base + v7a + tvdpi + en); supply as .apks/.apkm.
     // Pinned to 2.6.4_2076.
     val COMPATIBILITY_JIOTV = Compatibility(
-        name = "Jiotv+: LiveTV & OTT",
+        name = "Jiotv+: LiveTV & OTT (Android TV)",
         packageName = "com.jio.media.jiotvplus",
         apkFileType = ApkFileType.APKS,
         appIconColor = 0x0C2074, // Jio brand blue fallback (Manager extracts the real launcher icon)

@@ -130,8 +130,10 @@ node_modules/
 local.properties
 
 ### Chiggi project-specific ###
-# Copyrighted target app (never commit APKs)
-/sonyliv/
+# All local build artifacts (input + output APKs) live here, never committed.
+# See claudedocs/REPO_ORGANIZATION.md for the layout.
+/workspace/
+# Copyrighted target apps (never commit APKs)
 *.apkm
 *.apk
 # Local secrets
@@ -151,11 +153,4 @@ local.properties
 # Generated patch options
 options.json
 
-# Patched APK output
-/sonyliv/output/
-/threads/output/
-/arrowpuzzle/output/
-/crazygames/output/
-/hotstar/output/
-/vimtv/output/
-/jiotv/output/
+# Patched APK output now lives under /workspace/output/ (ignored above).
