@@ -1,3 +1,9 @@
+## [1.21.1](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.21.0...v1.21.1) (2026-09-08)
+
+### 🐛 Bug Fixes
+
+* **googlephone:** enable call recording, disable crashing call screen ([d32dbaf](https://github.com/durgesh0505/chiggi_morphe_patches/commit/d32dbaf4ab1875e4d00eea829f851faa72575f5e))
+
 ## [1.21.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.20.0...v1.21.0) (2026-09-08)
 
 ### ✨ New Features
