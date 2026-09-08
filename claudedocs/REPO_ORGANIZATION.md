@@ -23,6 +23,7 @@ Every app has ONE lowercase slug, no spaces, matching its patch package dir unde
 | Threads | `threads` | `com.instagram.barcelona` |
 | Nutrilio | `nutrilio` | `net.nutrilio` |
 | JioTV+ | `jiotv` | `com.jio.media.jiotvplus` |
+| Google Phone | `googlephone` | `com.google.android.dialer` |
 
 New app → pick a slug, add the row here, use it for the package dir, input, output, and plan doc.
 

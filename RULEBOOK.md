@@ -57,6 +57,14 @@ Project law. Read before any change. Overrides defaults. Rules earn a place only
 | Show an app UI over the lockscreen by adding `android:showWhenLocked="true"` + `android:turnScreenOn="true"` to the specific activity (resourcePatch); flag only the voice/assist activity, never MainActivity, so private content stays off the lock. User must still set the app as default Digital Assistant (OS setting, not patchable). | ChatGPT AssistantActivity + AssistantProxyActivity had no showWhenLocked, so the voice UI could not appear over the keyguard. |
 | Renaming an app's package to coexist can BREAK sign-in when login is web-OAuth over verified https App Links (assetlinks.json is package+cert bound) or Google/Apple sign-in; warn the operator, keep it a toggleable patch, and offer label-only (no rename) as the login-preserving fallback. | ChatGPT rename to `com.openai.chatgpt.morphe` risks breaking Google/Apple/OAuth-redirect login; email/password may still work. |
 
+## Google Phone (com.google.android.dialer)
+
+| Rule | Why |
+|------|-----|
+| Google Phone has NO screen recording (zero `MediaProjection`/`createScreenCaptureIntent`); the only recording is call AUDIO recording. Don't promise "screen recording". | Operator asked to "enable screen recording"; the app ships no screen-capture surface — it meant Call Recording. |
+| Google Phone Pixel features are all client-boolean gates (Phenotype flags) that are trivially patchable, but the payload behind the flag is NOT in the APK, so flipping them yields live UI that fails silently on a non-Pixel: Call Recording captures via `AudioRecord(VOICE_CALL/UPLINK/DOWNLINK)`+AudioPolicy needing `CAPTURE_AUDIO_OUTPUT` (signature\|privileged, /system/priv-app only → denied to a re-signed sideload → empty audio); Call Screen/Hold-for-Me/Direct-My-Call need an on-device SODA speech model (Speech Services by Google / Google app + offline pack, ships in Pixel firmware → dead UI). No server Pixel-entitlement and no `Build.MODEL`/`"Pixel"` check exist — device gating is a `Build.DEVICE` allowlist (empty) + those on-device resources. | Verified in jadx decompile of v235.0; operator was shown the blockers and chose "build flag-flip anyway" (UI-only). |
+| jadx maps root/unnamed-package classes into a synthetic `defpackage.*`; the REAL dex descriptor is `Liwd;` (root), NOT `Ldefpackage/iwd;`. Verify patched methods with `dexdump -d classes.dex | grep -A6 'iwd\.a:()Z'` (plain dexdump — `dexdump -c` prints nothing useful). Obfuscated single-letter class names shift across builds → fingerprint on the surviving `zqz.i("com/android/dialer/...")` log-path string + a decision string + returnType/params, never on the `defpackage` name. | dexdump grep for `Ldefpackage/iwd;` returned 0 until switching to `Liwd;`; the two gates (`CanRecord.canRecordCall`=iwd.a, `DobbyEnabledFn.isEnabled`=jzl.a) were confirmed forced `const/4 v0,0x1; return v0`. |
+
 ## Git & docs
 
 | Rule | Why |
