@@ -7,13 +7,13 @@ import app.morphe.patcher.patch.bytecodePatch
 @Suppress("unused")
 val enableCallRecordingPatch = bytecodePatch(
     name = "Enable call recording",
-    description = "Forces CanRecord.canRecordCall() true so the call-recording UI is offered on any " +
-        "device (it is normally gated to a country/OEM allowlist + the G__enable_call_recording flag). " +
-        "GOTCHA: the recorder captures via AudioRecord(VOICE_CALL) + AudioPolicy, which need the " +
-        "signature|privileged CAPTURE_AUDIO_OUTPUT permission (only granted to /system/priv-app). On a " +
-        "re-signed sideload this is a normal app, so recordings are empty/silent and may error — the " +
-        "toggle appears but does not functionally record. Use your Samsung dialer's native recording for " +
-        "real recordings.",
+    description = "Turns on Google Phone's built-in call recorder in regions where Google hides it. " +
+        "The recorder is gated on a client-side country allowlist that CanRecord.canRecordCall() " +
+        "resolves to one boolean the record button reads; forcing it true offers recording everywhere. " +
+        "Recording is on-device and works through the default-dialer telecom audio path (no privileged/" +
+        "priv-app permission needed), so it functions on non-Pixel devices — but Google Phone MUST be " +
+        "set as your default phone app. Recording calls is regulated in many places; check what is " +
+        "allowed where you live.",
     default = true,
 ) {
     compatibleWith(COMPATIBILITY_GOOGLE_PHONE)
