@@ -1,3 +1,9 @@
+## [1.20.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.19.0...v1.20.0) (2026-09-08)
+
+### ✨ New Features
+
+* **googlephone:** enable call recording + call screen (UI gates) ([1e2bf44](https://github.com/durgesh0505/chiggi_morphe_patches/commit/1e2bf4434a609662a076a7dbd59e3e30736f7663))
+
 ## [1.19.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.18.0...v1.19.0) (2026-08-20)
 
 ### ✨ New Features
