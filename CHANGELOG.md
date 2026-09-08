@@ -1,3 +1,9 @@
+## [1.21.2](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.21.1...v1.21.2) (2026-09-08)
+
+### 🐛 Bug Fixes
+
+* **googlephone:** remove Google Phone patches ([c692732](https://github.com/durgesh0505/chiggi_morphe_patches/commit/c6927326968dcc10bc36c4e2652b59905cb0907d))
+
 ## [1.21.1](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.21.0...v1.21.1) (2026-09-08)
 
 ### 🐛 Bug Fixes
