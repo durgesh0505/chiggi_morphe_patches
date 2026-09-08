@@ -1,5 +1,5 @@
 {
-  "version": "1.20.0",
+  "version": "v1.20.0",
   "patches": [
     {
       "name": "Add food search bar",
@@ -607,6 +607,58 @@
           "values": null
         }
       ]
+    },
+    {
+      "name": "Contacts on bottom bar",
+      "description": "Adds a Contacts button to the bottom navigation bar, between Home and Keypad. Tapping it opens the Contacts app. NOTE: Google removed the in-app Contacts tab from this build (the tab fragment is gone — selecting it as a real tab throws), so this routes the button to the Contacts app, matching the app's own drawer Contacts entry. Version-locked to 235.x: the handler hook references the obfuscated listener class, so it needs re-fingerprinting after a Google Phone update.",
+      "default": true,
+      "dependencies": [
+        "ResourcePatch"
+      ],
+      "compatiblePackages": [
+        {
+          "packageName": "com.google.android.dialer",
+          "name": "Phone by Google",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#1A73E8",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "235.0.965622757-downloadable",
+              "isExperimental": false,
+              "minSdk": 30,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Contacts on bottom bar (menu item)",
+      "description": "Adds the Contacts entry to the bottom navigation menu, between Home and Keypad. Pulled in automatically by \"Contacts on bottom bar\"; not useful on its own.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.google.android.dialer",
+          "name": "Phone by Google",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#1A73E8",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "235.0.965622757-downloadable",
+              "isExperimental": false,
+              "minSdk": 30,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
     },
     {
       "name": "Disable AppsFlyer tracking",
