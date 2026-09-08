@@ -1,3 +1,9 @@
+## [1.21.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.20.0...v1.21.0) (2026-09-08)
+
+### ✨ New Features
+
+* **googlephone:** add Contacts to bottom navigation row ([ca43a5b](https://github.com/durgesh0505/chiggi_morphe_patches/commit/ca43a5b7fab40e81f21b247f44387a0588f76521))
+
 ## [1.20.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.19.0...v1.20.0) (2026-09-08)
 
 ### ✨ New Features

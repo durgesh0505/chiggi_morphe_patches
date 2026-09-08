@@ -1,5 +1,5 @@
 {
-  "version": "v1.20.0",
+  "version": "1.21.0",
   "patches": [
     {
       "name": "Add food search bar",
