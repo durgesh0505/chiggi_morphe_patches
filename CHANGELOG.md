@@ -1,3 +1,9 @@
+## [1.22.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.21.2...v1.22.0) (2026-09-21)
+
+### ✨ New Features
+
+* **bighunter:** remove ads + free in-app purchases ([ebcf009](https://github.com/durgesh0505/chiggi_morphe_patches/commit/ebcf009c701e9a1b232f4064da799fa7b78f2a35))
+
 ## [1.21.2](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.21.1...v1.21.2) (2026-09-08)
 
 ### 🐛 Bug Fixes
