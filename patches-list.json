@@ -1,5 +1,5 @@
 {
-  "version": "1.22.0",
+  "version": "v1.22.0",
   "patches": [
     {
       "name": "Add food search bar",
@@ -121,6 +121,31 @@
               "version": "1.6.7",
               "isExperimental": false,
               "minSdk": 24,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Bypass license check",
+      "description": "Stops the PairIP (Google Play) license check from redirecting a re-signed build to the Play Store (\"get this game from Play\") and killing the app. Forces LicenseClient.initializeLicenseCheck() to a no-op (no Play bind, no paywall) and neuters startPaywallActivity()/startErrorDialogActivity() as defense. Nothing outside com.pairip.* reads the license state, so gameplay is unaffected. Required for the re-signed offline build to launch at all.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.kakarod.bighunter",
+          "name": "Big Hunter",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#4CAF50",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "3.1.1",
+              "isExperimental": false,
+              "minSdk": 23,
               "description": null
             }
           ]
