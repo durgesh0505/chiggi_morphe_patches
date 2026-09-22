@@ -1,3 +1,9 @@
+## [1.23.1](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.23.0...v1.23.1) (2026-09-22)
+
+### 🐛 Bug Fixes
+
+* **bighunter:** drive full purchase flow for free IAP (process lock) ([6831196](https://github.com/durgesh0505/chiggi_morphe_patches/commit/6831196e7154dcc41441331b867442ba57bdaf4b))
+
 ## [1.23.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.22.0...v1.23.0) (2026-09-22)
 
 ### ✨ New Features
