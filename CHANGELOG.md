@@ -1,3 +1,9 @@
+## [1.25.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.24.0...v1.25.0) (2026-10-18)
+
+### ✨ New Features
+
+* **zombiecatcher:** add unlimited coins and plutonium ([5828697](https://github.com/durgesh0505/chiggi_morphe_patches/commit/58286973bdf786979bc9a6c37d8b5866a5181f58))
+
 ## [1.24.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.23.1...v1.24.0) (2026-10-18)
 
 ### 🐛 Bug Fixes
