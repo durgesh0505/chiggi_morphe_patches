@@ -1,3 +1,13 @@
+## [1.24.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.23.1...v1.24.0) (2026-10-18)
+
+### 🐛 Bug Fixes
+
+* **zombiecatcher:** launch and render on re-signed builds ([8b7a5ae](https://github.com/durgesh0505/chiggi_morphe_patches/commit/8b7a5ae102c352462ff1507e5e7823c8a9d088bc))
+
+### ✨ New Features
+
+* **zombiecatcher:** add Zombie Catchers v1.69.16 patches ([7136fc5](https://github.com/durgesh0505/chiggi_morphe_patches/commit/7136fc5801674988d9c22cc9c1ccc64e55a282fb))
+
 ## [1.23.1](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.23.0...v1.23.1) (2026-09-22)
 
 ### 🐛 Bug Fixes
