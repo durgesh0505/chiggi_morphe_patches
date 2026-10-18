@@ -164,3 +164,16 @@ Source of the decrypted bytes: operator-supplied `workspace/input/zombie_catcher
 | 5 | `rm patches/build/libs/patches-*.mpp`, `./gradlew :patches:build generatePatchesList`, rebuild APK, `cmp` output `.so` vs scratch-tested `.so` | ✅ identical; output `workspace/output/zombie_catcher/zombie_catcher-morphe.apk` SHA-256 `286ad1fb1a0874b21defcd6bbedbe117ee6418bf607a4a7a681086f49e26be42` |
 
 Deferred (operator decision): mod's decrypted `libquack.so` / `libst-errorlogger.so` and its inlined PairIP string constants. Revisit only if ads, WorkManager, or saves misbehave.
+
+## Unlimited coins and plutonium (Claude Code, 2026-10-18)
+
+Operator asked for 99,999,999,999 of both. The game stores both as signed 32-bit `int` (`GameData::currentCashAmount()` reads `ldr w0,[x8]`, `currentPremiumCurrencyAmount()` reads `ldr w0,[x8,#4]`, `addCashWithAmount(int,bool)`), so the ceiling is 2,147,483,647. Operator chose the mod's proven value `0x4fffffff` (1,342,177,279), which leaves headroom so adding rewards cannot overflow negative. The patch is on by default.
+
+| # | Step | Status |
+|---|---|---|
+| 1 | `currency/UnlimitedCurrencyPatch.kt`: named patch "Unlimited coins and plutonium", `default = true`, depends on a raw native patch | ✅ |
+| 2 | Raw patch: resolve both getters through `.dynsym` (reuse `findFunctionFileOffset`, now `internal`), assert the original prologue `stp x29,x30,[sp,#-0x20]!` (`0xa9be7bfd`) + `str x19,[sp,#0x10]` (`0xf9000bf3`), write `0x12b60000` (`movn w0,#0xb000,lsl #16`) + `0xd65f03c0` (`ret`); idempotent | ✅ |
+| 3 | Build, regenerate `patches-list.json`, build APK, `cmp -l` output lib vs the scratch-tested lib = exactly the two 8-byte getter edits | ✅ 16 bytes at `0xe760bc` and `0xe7c320` only |
+| 4 | Commit, push `main`, confirm the CI release | ✅ pushed |
+
+Gotcha: the getters only change what the game reads. Spending never lowers the shown balance, and the saved balance underneath is unchanged. Cloud save or leaderboards can expose the account, so use a throwaway account.

@@ -46,7 +46,7 @@ internal val disableIapVerificationPatch = rawResourcePatch {
     }
 }
 
-private fun findFunctionFileOffset(elf: ByteArray, symbol: String): Long {
+internal fun findFunctionFileOffset(elf: ByteArray, symbol: String): Long {
     val buf = ByteBuffer.wrap(elf).order(ByteOrder.LITTLE_ENDIAN)
     if (buf.getInt(0) != 0x464C457F || elf[4].toInt() != 2 || elf[5].toInt() != 1 ||
         buf.getShort(0x12).toInt() != 183
