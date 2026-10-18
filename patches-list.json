@@ -155,9 +155,13 @@
     },
     {
       "name": "Bypass license check",
-      "description": "Bypasses PairIP signature and Google Play license checks. It also bypasses PairIP's encrypted-key import bootstrap and reconstructs Zombie Catchers' critical application, activity, and notification-service lifecycle methods so a re-signed build can start without encrypted VM bytecode. Third-party SDK VM stubs remain a runtime risk.",
+      "description": "Bypasses PairIP signature and Google Play license checks. It also bypasses PairIP's encrypted-key import bootstrap, neutralizes its protected native logger, restores the game library's PairIP-encrypted native data, disables broken AndroidX startup and Firebase anonymous auth, and reconstructs the critical application, activity, and notification-service lifecycle methods so a re-signed build can start without encrypted VM bytecode. Third-party SDK VM stubs remain a runtime risk.",
       "default": true,
-      "dependencies": [],
+      "dependencies": [
+        "RawResourcePatch",
+        "RawResourcePatch",
+        "ResourcePatch"
+      ],
       "compatiblePackages": [
         {
           "packageName": "fi.twomenandadog.zombiecatchers",
@@ -661,7 +665,7 @@
     {
       "name": "Change package name",
       "description": "Changes the manifest package and package-derived authorities/permissions so Zombie Catchers Morphe can install beside the original. Play Games, Firebase auth, store updates, and server checks can still reject the renamed and re-signed build.",
-      "default": true,
+      "default": false,
       "dependencies": [],
       "compatiblePackages": [
         {

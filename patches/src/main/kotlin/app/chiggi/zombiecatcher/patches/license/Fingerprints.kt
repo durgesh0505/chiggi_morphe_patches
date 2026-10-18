@@ -106,3 +106,38 @@ internal object NotificationOnStartCommandFingerprint : Fingerprint(
     returnType = "I",
     parameters = listOf("Landroid/content/Intent;", "I", "I"),
 )
+
+internal object ScheduleNotificationFingerprint : Fingerprint(
+    definingClass = "Lfi/twomenandadog/zombiecatchers/ZCActivity;",
+    name = "scheduleNotification",
+    returnType = "V",
+    parameters = listOf(
+        "I",
+        "Ljava/lang/String;",
+        "Ljava/lang/String;",
+        "Ljava/lang/String;",
+        "Z",
+        "I",
+    ),
+)
+
+internal object CancelAllNotificationsFingerprint : Fingerprint(
+    definingClass = "Lfi/twomenandadog/zombiecatchers/ZCActivity;",
+    name = "cancelAllNotifications",
+    returnType = "V",
+    parameters = listOf(),
+)
+
+internal object SignInAnonymouslyFingerprint : Fingerprint(
+    definingClass = "Lfi/twomenandadog/zombiecatchers/ZCActivity;",
+    name = "signInAnonymously",
+    returnType = "V",
+    parameters = listOf(),
+)
+
+internal object RetrieveDeviceIdFingerprint : Fingerprint(
+    definingClass = "Lfi/twomenandadog/zombiecatchers/ZCActivity;",
+    name = "retrieveDeviceId",
+    returnType = "Ljava/lang/String;",
+    parameters = listOf(),
+)

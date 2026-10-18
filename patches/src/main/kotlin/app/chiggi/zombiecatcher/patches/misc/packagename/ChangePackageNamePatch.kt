@@ -13,7 +13,7 @@ val changePackageNamePatch = resourcePatch(
     description = "Changes the manifest package and package-derived authorities/permissions so " +
         "Zombie Catchers Morphe can install beside the original. Play Games, Firebase auth, store " +
         "updates, and server checks can still reject the renamed and re-signed build.",
-    default = true,
+    default = false,
 ) {
     compatibleWith(COMPATIBILITY_ZOMBIE_CATCHERS)
 
