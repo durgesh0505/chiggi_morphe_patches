@@ -149,8 +149,8 @@ Native gates that Java hooks may not cover (device test required): `com.lemon.ed
 | 2 | Remove Watermark | On | `Q0`,`C4`,`F4`,`v4`→true; `y2`,`EditConfig.k`→false |
 | 3 | Unlock Ultra HD Export | On | `TemplateExportUltraHdUtils.c/d/e/j/q`→true |
 | 4 | Unlock Premium Templates | On | `x6`,`A6`→true; `C6`→false; `TemplateBreakDomain.e`→false; `LoginChecker.e`→pass |
-| 5 | Bypass Signature Check | On | 9 hooks above |
-| 6 | Persist-free CrackingInterceptor (`c(I)V` stub) | Off | 1 |
+| 5 | Bypass Signature Check | On | 9 direct hooks plus persist-free CrackingInterceptor dependency; includes the template-feed response interceptor passthrough |
+| 6 | Persist-free CrackingInterceptor (`c(I)V` stub) | Off when selected alone; automatically included by Bypass Signature Check | 1 |
 | 7 | Bypass Unsafe Package Modal | On | `LynxSchemaConfig.<init>` URL |
 | 8 | Bypass GeoBlock | On | 5 |
 | 9 | Bypass Effects Region | On | 3 (`windows`, did `0`) |
@@ -179,3 +179,7 @@ Native gates that Java hooks may not cover (device test required): `com.lemon.ed
 ## Current scope override (2026-11-08)
 
 The operator approved Morphe patch-source corrections only and explicitly excluded APK creation. Source corrections are recorded in `claudedocs/CAPCUT_PATCH_SOURCE_FIXES.md`. Steps 4–7 above were not run during the correction pass. Do not build a patch bundle or APK, regenerate `patches-list.json`, sign, align, install, or run device tests without separate operator approval.
+
+## Security-notice root-cause correction (2026-11-08)
+
+Device feedback proved a security notice survived the first signature-bypass implementation. The main dialog lambda and local JNI toast were already suppressed. The surviving path was the unpatched `com.xt.retouch.applauncher.core.interceptor.CrackingInterceptor.intercept` response interceptor, which reads server `ret` values `-4`, `-5`, `34010421`, and `34010422`. The fix converts that interceptor to a transparent `chain.proceed(request)` passthrough and makes Bypass Signature Check depend on `CrackingInterceptor.c(I)V` persistence suppression. Full evidence is in `claudedocs/CAPCUT_SECURITY_NOTICE_ROOT_CAUSE.md`. No APK was built during this correction.

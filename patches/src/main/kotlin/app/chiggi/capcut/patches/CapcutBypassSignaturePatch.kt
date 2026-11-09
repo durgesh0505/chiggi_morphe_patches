@@ -55,6 +55,14 @@ private object CrackingDialogRenderFingerprint : Fingerprint(
     strings = listOf("lynx_overlay_id"),
 )
 
+private object TemplateFeedCrackingInterceptFingerprint : Fingerprint(
+    definingClass = "Lcom/xt/retouch/applauncher/core/interceptor/CrackingInterceptor;",
+    name = "intercept",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "Lcom/bytedance/retrofit2/SsResponse;",
+    parameters = listOf("Lcom/bytedance/retrofit2/intercept/Interceptor${'$'}Chain;"),
+)
+
 private object PglSignatureCheckFingerprint : Fingerprint(
     definingClass = "Lcom/pgl/ssdk/t;",
     name = "g",
@@ -74,10 +82,11 @@ private object PglSignatureValidateFingerprint : Fingerprint(
 @Suppress("unused")
 val capcutBypassSignaturePatch = bytecodePatch(
     name = "Bypass Signature Check",
-    description = "Spoofs the official APK signature (SHA-256) for tamper telemetry, drops the server-driven signature blacklist, silences the abnormal-source toast, and disables the Godzilla inject-detect gate so re-signed builds are not blocked.",
+    description = "Spoofs the official APK signature, suppresses local and server-driven cracking notices, prevents cracking-verdict persistence, and disables Godzilla and PGL integrity gates so re-signed builds are not blocked.",
     default = true,
 ) {
     compatibleWith(Constants.COMPATIBILITY_CAPCUT)
+    dependsOn(capcutCrackingPersistencePatch)
 
     execute {
         var patched = 0
@@ -134,6 +143,17 @@ val capcutBypassSignaturePatch = bytecodePatch(
         )
         patched++
 
+        TemplateFeedCrackingInterceptFingerprint.method.addInstructions(
+            0,
+            """
+                invoke-interface {p1}, Lcom/bytedance/retrofit2/intercept/Interceptor${'$'}Chain;->request()Lcom/bytedance/retrofit2/client/Request;
+                move-result-object v0
+                invoke-interface {p1, v0}, Lcom/bytedance/retrofit2/intercept/Interceptor${'$'}Chain;->proceed(Lcom/bytedance/retrofit2/client/Request;)Lcom/bytedance/retrofit2/SsResponse;
+                move-result-object v0
+                return-object v0
+            """,
+        )
+        patched++
 
         PglSignatureCheckFingerprint.method.addInstructions(
             0,
@@ -150,6 +170,6 @@ val capcutBypassSignaturePatch = bytecodePatch(
         )
         patched++
 
-        println("[Bypass Signature Check] Applied $patched hooks -> APK signature spoofed to official, tamper gates disabled, security dialog suppressed, PGL signature verification stubbed.")
+        println("[Bypass Signature Check] Applied $patched hooks -> signature spoofed, cracking verdict persistence disabled, both cracking notice paths suppressed, and PGL verification stubbed.")
     }
 }
