@@ -1,3 +1,9 @@
+## [1.27.7](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.6...v1.27.7) (2026-11-09)
+
+### 🐛 Bug Fixes
+
+* **capcut:** stop unsafe deeplink activity ([4a1e922](https://github.com/durgesh0505/chiggi_morphe_patches/commit/4a1e9227569fea8691a6f98acf1b03f682a553c3))
+
 ## [1.27.6](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.5...v1.27.6) (2026-11-09)
 
 ### 🐛 Bug Fixes
