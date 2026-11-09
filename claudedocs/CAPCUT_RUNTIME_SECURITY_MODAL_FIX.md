@@ -30,3 +30,13 @@ This prevents rendering the blocking security modal. It does not alter native cr
 ## Completion record
 
 Implemented on 2026-11-08. The exact CapCut 20.0.0 `LynxSchemeConfigCapCutImpl.t0()Ljava/lang/String;` descriptor was verified. The injected `const-string` plus `return-object` sequence compiled directly through Morphe `InlineSmaliCompiler` to `CONST_STRING` and `RETURN_OBJECT`. Five source assertions and `git diff --check` passed. No APK or patch bundle was built.
+
+## November 9 device correction
+
+Fresh logcat after every prior hook was present captured the authoritative URL:
+
+`capcut://lynxview?lynx_overlay_id=unsafe_pkg_modal&code=-5&channel=image_lynx_global_unsafe_pkg_modal...`
+
+The JNI path launches this raw URL through the central Lynx opener rather than reading the patched `t0()` getter. The durable fix is therefore at `FunctionKt.j(Context, String, ...)`: if the URL contains `image_lynx_global_unsafe_pkg_modal`, report it handled and return before activity routing. This covers native, server, and Java callers without blocking unrelated Lynx pages.
+
+Device resource inspection also disproved the prior `BusinessSignDialog` hypothesis: that class contains creator-agreement text, not the visible security notice. Remove its suppression hook to restore unrelated creator-sign behavior.

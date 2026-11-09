@@ -1,5 +1,7 @@
 # CapCut business-sign security dialog fix
 
+> **Correction, 2026-11-09:** Device resource inspection proved `BusinessSignDialog` contains creator-agreement text, not the security notice. Its suppression hook was removed. The actual notice is the Lynx channel `image_lynx_global_unsafe_pkg_modal`, now blocked centrally as documented in `CAPCUT_RUNTIME_SECURITY_MODAL_FIX.md`.
+
 ## Device proof
 
 On the freshly repatched Samsung SM-S938U1, templates load successfully behind the remaining modal, proving the feed redirect works. The displayed modal exactly matches `com.vega.ui.dialog.BusinessSignDialog` resources and layout.
