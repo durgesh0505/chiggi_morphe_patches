@@ -165,6 +165,7 @@ Native gates that Java hooks may not cover (device test required): `com.lemon.ed
 | 18 | Redirect API to v2-boot | Off | 4 host rewrites |
 | 19 | Change Package Name | Off | manifest rename |
 | 20 | Debloat locales / native slimmer | Off | speech `.so` removal kills auto-captions and TTS |
+| 21 | Unlock Ultra Plan | On | Depends on Unlock Premium; reports `SubscriptionLevel.ULTRA`, far-future local end times, non-auto purchase state, and no trial/expiry flags |
 
 ## Implementation steps (gated on operator approval of this plan)
 
@@ -179,6 +180,8 @@ Native gates that Java hooks may not cover (device test required): `com.lemon.ed
 ## Current scope override (2026-11-08)
 
 The operator approved Morphe patch-source corrections only and explicitly excluded APK creation. Source corrections are recorded in `claudedocs/CAPCUT_PATCH_SOURCE_FIXES.md`. Steps 4–7 above were not run during the correction pass. Do not build a patch bundle or APK, regenerate `patches-list.json`, sign, align, install, or run device tests without separate operator approval.
+
+The separate Ultra local-plan patch is documented in `claudedocs/CAPCUT_ULTRA_PLAN_PATCH.md`. It changes local tier and expiration state only; server-side Ultra credits, storage, receipts, and account entitlements remain unchanged.
 
 ## Security-notice root-cause correction (2026-11-08)
 
