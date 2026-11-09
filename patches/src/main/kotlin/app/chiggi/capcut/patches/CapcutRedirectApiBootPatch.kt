@@ -121,8 +121,8 @@ private fun escapeSmaliString(value: String): String = buildString {
 @Suppress("unused")
 val capcutRedirectApiBootPatch = bytecodePatch(
     name = "Redirect API to v2 Boot",
-    description = "Loads effects, feeds and templates where default endpoints are blocked by using official alternate endpoints.",
-    default = false,
+    description = "Redirects blocked editor, template-category/feed, commerce, and passport requests to official v2-boot endpoints so template tabs load without waiting for the default-host timeout.",
+    default = true,
 ) {
     compatibleWith(Constants.COMPATIBILITY_CAPCUT)
 

@@ -162,7 +162,7 @@ Native gates that Java hooks may not cover (device test required): `com.lemon.ed
 | 15 | Disable Forced Update | On | `VersionUpdateService.a` |
 | 16 | Block Telemetry | On | kveld set minus `TicketGuardProvider` |
 | 17 | Neutralize Play Billing | On | 7 |
-| 18 | Redirect API to v2-boot | Off | 4 host rewrites |
+| 18 | Redirect API to v2-boot | On | 4 host rewrites; required for template category/tab loading when default API hosts are blocked |
 | 19 | Change Package Name | Off | manifest rename |
 | 20 | Debloat locales / native slimmer | Off | speech `.so` removal kills auto-captions and TTS |
 | 21 | Unlock Ultra Plan | On | Depends on Unlock Premium; reports `SubscriptionLevel.ULTRA`, far-future local end times, non-auto purchase state, and no trial/expiry flags |
