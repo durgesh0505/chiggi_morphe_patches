@@ -14,6 +14,13 @@ private object LynxUnsafeModalDefaultFingerprint : Fingerprint(
     strings = listOf("image_lynx_global_unsafe_pkg_modal"),
 )
 
+private object RuntimeCrackGuideSchemaFingerprint : Fingerprint(
+    definingClass = "Lcom/vega/paas/LynxSchemeConfigCapCutImpl;",
+    name = "t0",
+    returnType = "Ljava/lang/String;",
+    parameters = listOf(),
+)
+
 private const val UNSAFE_MODAL_URL =
     "capcut://main/lynx?channel=image_lynx_global_unsafe_pkg_modal&bundle=template.js&hide_loading=0&hide_nav_bar=1&immersive_mode=1&enter_mode=modal&present_style=over_full_screen&loading_bgcolor=00000000&dynamic=3&exit_mode=none"
 
@@ -23,7 +30,7 @@ private const val TEMPLATE_PORTAL_URL =
 @Suppress("unused")
 val capcutBypassUnsafeModalPatch = bytecodePatch(
     name = "Bypass Unsafe Package Modal",
-    description = "Replaces the unsafe-package modal fallback URL in the Lynx schema defaults with the real template portal URL so region-blocked or untrusted-client fallbacks open templates instead of the blocking security notice.",
+    description = "Replaces both the default and runtime-overridden crack-guide schema with the template portal URL so the blocking security notice cannot reopen after remote settings load.",
     default = true,
 ) {
     compatibleWith(Constants.COMPATIBILITY_CAPCUT)
@@ -55,6 +62,14 @@ val capcutBypassUnsafeModalPatch = bytecodePatch(
             )
         }
 
-        println("[Bypass Unsafe Package Modal] Applied ${matches.size} hook(s) -> unsafe modal fallback points at template portal.")
+        RuntimeCrackGuideSchemaFingerprint.method.addInstructions(
+            0,
+            """
+                const-string v0, "$TEMPLATE_PORTAL_URL"
+                return-object v0
+            """,
+        )
+
+        println("[Bypass Unsafe Package Modal] Rewrote ${matches.size} default(s) and forced the runtime crack-guide schema to the template portal.")
     }
 }
