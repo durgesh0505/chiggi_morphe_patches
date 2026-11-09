@@ -1,5 +1,5 @@
 {
-  "version": "1.26.1",
+  "version": "1.27.0",
   "patches": [
     {
       "name": "Add food search bar",
@@ -2484,6 +2484,33 @@
       "description": "Forces CapCut Ultra HD / high-resolution export gates to unlocked so 4K export options stay available.",
       "default": true,
       "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.lemon.lvoverseas",
+          "name": "CapCut",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#000000",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "20.0.0",
+              "isExperimental": false,
+              "minSdk": 23,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Unlock Ultra Plan",
+      "description": "Reports CapCut Ultra as the active locally purchased tier, sets a non-expiring local benefit end date, and disables renewal, cancellation, trial, and expiry-warning states. Server-side credits and cloud entitlements are not granted.",
+      "default": true,
+      "dependencies": [
+        "BytecodePatch"
+      ],
       "compatiblePackages": [
         {
           "packageName": "com.lemon.lvoverseas",

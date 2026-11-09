@@ -1,3 +1,9 @@
+## [1.27.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.26.1...v1.27.0) (2026-11-09)
+
+### ✨ New Features
+
+* **capcut:** add non-expiring Ultra state ([a08e2b1](https://github.com/durgesh0505/chiggi_morphe_patches/commit/a08e2b1f5ae185a1e6ad9ad5e6b63da45cb09a17))
+
 ## [1.26.1](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.26.0...v1.26.1) (2026-11-09)
 
 ### 🐛 Bug Fixes
