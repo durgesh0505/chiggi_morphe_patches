@@ -1,3 +1,9 @@
+## [1.27.4](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.3...v1.27.4) (2026-11-09)
+
+### 🐛 Bug Fixes
+
+* **capcut:** suppress business sign notice ([bb49def](https://github.com/durgesh0505/chiggi_morphe_patches/commit/bb49defacc9e03df808ab73b7ad30fb3a9dd5822))
+
 ## [1.27.3](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.2...v1.27.3) (2026-11-09)
 
 ### 🐛 Bug Fixes
