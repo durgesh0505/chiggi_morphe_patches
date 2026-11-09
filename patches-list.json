@@ -1,5 +1,5 @@
 {
-  "version": "1.27.5",
+  "version": "1.27.6",
   "patches": [
     {
       "name": "Add food search bar",
@@ -259,7 +259,7 @@
     },
     {
       "name": "Bypass Unsafe Package Modal",
-      "description": "Replaces both the default and runtime-overridden crack-guide schema with the template portal URL so the blocking security notice cannot reopen after remote settings load.",
+      "description": "Blocks the unsafe-package security modal at CapCut's central Lynx opener and replaces default/runtime crack-guide schemas with the template portal.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [

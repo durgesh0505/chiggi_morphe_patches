@@ -1,3 +1,9 @@
+## [1.27.6](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.5...v1.27.6) (2026-11-09)
+
+### 🐛 Bug Fixes
+
+* **capcut:** block unsafe modal deeplink ([f2ca55f](https://github.com/durgesh0505/chiggi_morphe_patches/commit/f2ca55f4510c0330f75992adb1b2afd5bd5b1b4b))
+
 ## [1.27.5](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.4...v1.27.5) (2026-11-09)
 
 ### 🐛 Bug Fixes
