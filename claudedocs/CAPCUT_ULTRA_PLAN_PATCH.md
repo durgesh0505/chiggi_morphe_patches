@@ -35,3 +35,9 @@ Verify exact CapCut 20.0.0 method descriptors and source injections only. Do not
 ## Completion record
 
 Implemented on 2026-11-08 as `CapcutUnlockUltraPlanPatch.kt`. All 27 target descriptors were found in CapCut 20.0.0, 12 source assertions passed, `git diff --check` passed, and the source has no trailing whitespace. No Gradle, patch-bundle, APK, signing, alignment, installation, or ADB command ran.
+
+## Morphe 2.3.0 patcher failure and correction
+
+Source `1.27.0` failed at `forceLong` with `InlineSmaliCompiler: Collection is empty`. The first large `const-wide` literal was emitted as `0x3afff4417f` without the required Smali long suffix. Values larger than a 32-bit literal must use `L`, for example `const-wide v0, 0x3afff4417fL`. The zero literal compiled because it fits the integer-literal grammar. Correct the shared far-future literal so both the direct expiry getters and `getSubscriptionEndTime` emit valid long instructions. No hook descriptor or membership behavior changes.
+
+The corrected two-instruction sequence was passed directly to Morphe `InlineSmaliCompiler` 1.5.1 with three registers. It produced `CONST_WIDE` and `RETURN_WIDE`, proving the exact source string compiles before publishing another patch bundle.

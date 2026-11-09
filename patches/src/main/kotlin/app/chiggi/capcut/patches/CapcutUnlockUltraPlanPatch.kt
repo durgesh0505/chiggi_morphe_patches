@@ -9,7 +9,7 @@ import com.android.tools.smali.dexlib2.AccessFlags
 private const val USER_DETAIL_INFO = "Lcom/lemon/lv/clipmonetize/data/UserDetailInfo;"
 private const val USER_VIP_INFO = "Lcom/lm/components/subscribe/config/UserVipInfo;"
 private const val API_MODELS_EXT = "Lcom/lemon/lv/clipmonetize/data/APIModelsExtKt;"
-private const val FAR_FUTURE_UNIX_SECONDS = "0x3afff4417f" // 9999-12-31 23:59:59 UTC
+private const val FAR_FUTURE_UNIX_SECONDS = "0x3afff4417fL" // 9999-12-31 23:59:59 UTC
 
 private fun userDetailGetter(name: String, returnType: String) = Fingerprint(
     definingClass = USER_DETAIL_INFO,
