@@ -166,6 +166,7 @@ Native gates that Java hooks may not cover (device test required): `com.lemon.ed
 | 19 | Change Package Name | Off | manifest rename |
 | 20 | Debloat locales / native slimmer | Off | speech `.so` removal kills auto-captions and TTS |
 | 21 | Unlock Ultra Plan | On | Depends on Unlock Premium; reports `SubscriptionLevel.ULTRA`, far-future local end times, non-auto purchase state, and no trial/expiry flags |
+| 22 | Allow Functional Network Hosts | On | Allows `capcutapi.com`, `ibyteimg.com`, and `tiktokcdn-us.com` through Helios domain enforcement; other domains keep stock policy |
 
 ## Implementation steps (gated on operator approval of this plan)
 
