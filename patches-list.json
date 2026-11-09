@@ -1,5 +1,5 @@
 {
-  "version": "1.27.7",
+  "version": "1.27.8",
   "patches": [
     {
       "name": "Add food search bar",
@@ -21,6 +21,31 @@
               "version": "1.20.2",
               "isExperimental": false,
               "minSdk": 26,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Allow Functional Network Hosts",
+      "description": "Allows CapCut API and resource-CDN domain families through Helios' runtime domain policy so templates and downloadable assets are not rejected with HTTP 410. Other domains keep the original policy.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.lemon.lvoverseas",
+          "name": "CapCut",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#000000",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "20.0.0",
+              "isExperimental": false,
+              "minSdk": 23,
               "description": null
             }
           ]

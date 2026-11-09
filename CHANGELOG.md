@@ -1,3 +1,9 @@
+## [1.27.8](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.7...v1.27.8) (2026-11-09)
+
+### 🐛 Bug Fixes
+
+* **capcut:** allow functional network hosts ([4394973](https://github.com/durgesh0505/chiggi_morphe_patches/commit/4394973af6bc2717d94d62b7992e859bf8c44cc7))
+
 ## [1.27.7](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.6...v1.27.7) (2026-11-09)
 
 ### 🐛 Bug Fixes
