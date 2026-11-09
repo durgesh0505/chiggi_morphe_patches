@@ -1,3 +1,9 @@
+## [1.27.1](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.0...v1.27.1) (2026-11-09)
+
+### 🐛 Bug Fixes
+
+* **capcut:** mark Ultra expiry as long ([7a0a770](https://github.com/durgesh0505/chiggi_morphe_patches/commit/7a0a770c7deb908919ce7185ef5b8b4ff71e6277))
+
 ## [1.27.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.26.1...v1.27.0) (2026-11-09)
 
 ### ✨ New Features
