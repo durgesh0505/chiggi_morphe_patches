@@ -1,3 +1,9 @@
+## [1.27.2](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.1...v1.27.2) (2026-11-09)
+
+### 🐛 Bug Fixes
+
+* **capcut:** enable template API redirect ([3218b93](https://github.com/durgesh0505/chiggi_morphe_patches/commit/3218b933e9386ee7a335d78b0b6c0c1e4af0b4b9))
+
 ## [1.27.1](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.0...v1.27.1) (2026-11-09)
 
 ### 🐛 Bug Fixes
