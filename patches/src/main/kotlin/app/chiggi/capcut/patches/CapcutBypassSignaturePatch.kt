@@ -5,6 +5,9 @@ import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
 import app.chiggi.capcut.patches.shared.Constants
 import com.android.tools.smali.dexlib2.AccessFlags
+import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
+import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
+import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 private object AppUtilsGetSignatureFingerprint : Fingerprint(
     definingClass = "Lcom/lm/components/utils/AppUtils;",
@@ -64,6 +67,22 @@ private object BusinessSignDialogFingerprint : Fingerprint(
     strings = listOf("creator_sign_alert"),
 )
 
+private object NetworkInitHookFingerprint : Fingerprint(
+    definingClass = "Lcom/vega/launcher/init/core/hook/NetworkInitHook;",
+    name = "a",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "V",
+    parameters = listOf(),
+)
+
+private object NetworkInitTaskFingerprint : Fingerprint(
+    definingClass = "Lcom/vega/launcher/start/schedule/tasks/NetworkInitTask;",
+    name = "run",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "V",
+    parameters = listOf(),
+)
+
 private object TemplateFeedCrackingInterceptFingerprint : Fingerprint(
     definingClass = "Lcom/xt/retouch/applauncher/core/interceptor/CrackingInterceptor;",
     name = "intercept",
@@ -99,6 +118,33 @@ val capcutBypassSignaturePatch = bytecodePatch(
 
     execute {
         var patched = 0
+
+        fun removeNativeCrackingInterceptor(fp: Fingerprint) {
+            val method = fp.method
+            val instructions = method.implementation?.instructions?.toList()
+                ?: error("[Bypass Signature Check] Network init target has no instructions.")
+            val arrayListOfIndex = instructions.indexOfFirst { instruction ->
+                val reference = (instruction as? ReferenceInstruction)?.reference as? MethodReference
+                reference?.name == "arrayListOf" &&
+                    reference.definingClass == "Lkotlin/collections/CollectionsKt__CollectionsKt;"
+            }
+            if (arrayListOfIndex < 0) {
+                error("[Bypass Signature Check] Network interceptor arrayListOf call not found.")
+            }
+            val listRegister = (instructions.getOrNull(arrayListOfIndex + 1) as? OneRegisterInstruction)?.registerA
+                ?: error("[Bypass Signature Check] Network interceptor list result register not found.")
+            if (listRegister == 0) {
+                error("[Bypass Signature Check] Network interceptor list unexpectedly uses scratch register v0.")
+            }
+            method.addInstructions(
+                arrayListOfIndex + 2,
+                """
+                    const/4 v0, 0x6
+                    invoke-virtual {v$listRegister, v0}, Ljava/util/ArrayList;->remove(I)Ljava/lang/Object;
+                """,
+            )
+            patched++
+        }
 
         AppUtilsGetSignatureFingerprint.method.addInstructions(
             0,
@@ -161,6 +207,9 @@ val capcutBypassSignaturePatch = bytecodePatch(
         )
         patched++
 
+        removeNativeCrackingInterceptor(NetworkInitHookFingerprint)
+        removeNativeCrackingInterceptor(NetworkInitTaskFingerprint)
+
         TemplateFeedCrackingInterceptFingerprint.method.addInstructions(
             0,
             """
@@ -188,6 +237,6 @@ val capcutBypassSignaturePatch = bytecodePatch(
         )
         patched++
 
-        println("[Bypass Signature Check] Applied $patched hooks -> signature spoofed, cracking verdict persistence disabled, cracking and business-sign security dialogs suppressed, and PGL verification stubbed.")
+        println("[Bypass Signature Check] Applied $patched hooks -> signature spoofed, JNI cracking interceptors removed from both network stacks, security dialogs suppressed, and PGL verification stubbed.")
     }
 }
