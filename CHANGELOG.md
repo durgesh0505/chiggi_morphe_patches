@@ -1,3 +1,9 @@
+## [1.27.5](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.4...v1.27.5) (2026-11-09)
+
+### 🐛 Bug Fixes
+
+* **capcut:** remove native cracking interceptor ([4629d15](https://github.com/durgesh0505/chiggi_morphe_patches/commit/4629d157fb9253e21b93127c6531f44b7ff5afb2))
+
 ## [1.27.4](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.3...v1.27.4) (2026-11-09)
 
 ### 🐛 Bug Fixes
