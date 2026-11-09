@@ -1,5 +1,5 @@
 {
-  "version": "1.26.0",
+  "version": "1.26.1",
   "patches": [
     {
       "name": "Add food search bar",
@@ -232,9 +232,11 @@
     },
     {
       "name": "Bypass Signature Check",
-      "description": "Spoofs the official APK signature (SHA-256) for tamper telemetry, drops the server-driven signature blacklist, silences the abnormal-source toast, and disables the Godzilla inject-detect gate so re-signed builds are not blocked.",
+      "description": "Spoofs the official APK signature, suppresses local and server-driven cracking notices, prevents cracking-verdict persistence, and disables Godzilla and PGL integrity gates so re-signed builds are not blocked.",
       "default": true,
-      "dependencies": [],
+      "dependencies": [
+        "BytecodePatch"
+      ],
       "compatiblePackages": [
         {
           "packageName": "com.lemon.lvoverseas",
@@ -1211,7 +1213,7 @@
     },
     {
       "name": "Do Not Persist Cracking Verdict",
-      "description": "Optional: stops local crackingInfo persistence. Off by default because server verdict echoes should normally remain intact.",
+      "description": "Stops CapCut from persisting server cracking verdicts in the local crackingInfo preferences. Automatically included by Bypass Signature Check.",
       "default": false,
       "dependencies": [],
       "compatiblePackages": [

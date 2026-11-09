@@ -1,3 +1,9 @@
+## [1.26.1](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.26.0...v1.26.1) (2026-11-09)
+
+### 🐛 Bug Fixes
+
+* **capcut:** suppress server cracking notice ([2154889](https://github.com/durgesh0505/chiggi_morphe_patches/commit/215488979697b7a7aebc9be3ceb1eb45db6669e3))
+
 ## [1.26.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.25.0...v1.26.0) (2026-11-09)
 
 ### ✨ New Features
