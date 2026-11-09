@@ -1,3 +1,9 @@
+## [1.26.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.25.0...v1.26.0) (2026-11-09)
+
+### ✨ New Features
+
+* **capcut:** add CapCut 20.0.0 patches ([1c1901b](https://github.com/durgesh0505/chiggi_morphe_patches/commit/1c1901bf95b6ce045ef44da39ee2773687f19f5e))
+
 ## [1.25.0](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.24.0...v1.25.0) (2026-10-18)
 
 ### ✨ New Features
