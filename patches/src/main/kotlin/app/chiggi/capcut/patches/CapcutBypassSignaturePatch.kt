@@ -55,6 +55,15 @@ private object CrackingDialogRenderFingerprint : Fingerprint(
     strings = listOf("lynx_overlay_id"),
 )
 
+private object BusinessSignDialogFingerprint : Fingerprint(
+    definingClass = "Lcom/vega/launcher/init/InitManagerEx\$tryShowBusinessSignDialog\$1;",
+    name = "invokeSuspend",
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "Ljava/lang/Object;",
+    parameters = listOf("Ljava/lang/Object;"),
+    strings = listOf("creator_sign_alert"),
+)
+
 private object TemplateFeedCrackingInterceptFingerprint : Fingerprint(
     definingClass = "Lcom/xt/retouch/applauncher/core/interceptor/CrackingInterceptor;",
     name = "intercept",
@@ -143,6 +152,15 @@ val capcutBypassSignaturePatch = bytecodePatch(
         )
         patched++
 
+        BusinessSignDialogFingerprint.method.addInstructions(
+            0,
+            """
+                sget-object v0, Lkotlin/Unit;->INSTANCE:Lkotlin/Unit;
+                return-object v0
+            """,
+        )
+        patched++
+
         TemplateFeedCrackingInterceptFingerprint.method.addInstructions(
             0,
             """
@@ -170,6 +188,6 @@ val capcutBypassSignaturePatch = bytecodePatch(
         )
         patched++
 
-        println("[Bypass Signature Check] Applied $patched hooks -> signature spoofed, cracking verdict persistence disabled, both cracking notice paths suppressed, and PGL verification stubbed.")
+        println("[Bypass Signature Check] Applied $patched hooks -> signature spoofed, cracking verdict persistence disabled, cracking and business-sign security dialogs suppressed, and PGL verification stubbed.")
     }
 }
