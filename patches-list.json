@@ -1,5 +1,5 @@
 {
-  "version": "1.27.2",
+  "version": "1.27.3",
   "patches": [
     {
       "name": "Add food search bar",
@@ -259,7 +259,7 @@
     },
     {
       "name": "Bypass Unsafe Package Modal",
-      "description": "Replaces the unsafe-package modal fallback URL in the Lynx schema defaults with the real template portal URL so region-blocked or untrusted-client fallbacks open templates instead of the blocking security notice.",
+      "description": "Replaces both the default and runtime-overridden crack-guide schema with the template portal URL so the blocking security notice cannot reopen after remote settings load.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [

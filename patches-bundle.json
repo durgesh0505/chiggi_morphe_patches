@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-09T02:00:19",
-  "description": "## [1.27.2](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.1...v1.27.2) (2026-11-09)\n\n### 🐛 Bug Fixes\n\n* **capcut:** enable template API redirect ([3218b93](https://github.com/durgesh0505/chiggi_morphe_patches/commit/3218b933e9386ee7a335d78b0b6c0c1e4af0b4b9))",
-  "download_url": "https://github.com/durgesh0505/chiggi_morphe_patches/releases/download/v1.27.2/patches-1.27.2.mpp",
+  "created_at": "2026-11-09T02:50:26",
+  "description": "## [1.27.3](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.2...v1.27.3) (2026-11-09)\n\n### 🐛 Bug Fixes\n\n* **capcut:** override runtime security schema ([0c2460b](https://github.com/durgesh0505/chiggi_morphe_patches/commit/0c2460bab9a0000f25d0077b3a02abf7cde8eaae))",
+  "download_url": "https://github.com/durgesh0505/chiggi_morphe_patches/releases/download/v1.27.3/patches-1.27.3.mpp",
   "signature_download_url": "",
-  "version": "1.27.2"
+  "version": "1.27.3"
 }

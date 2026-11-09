@@ -1,3 +1,9 @@
+## [1.27.3](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.2...v1.27.3) (2026-11-09)
+
+### 🐛 Bug Fixes
+
+* **capcut:** override runtime security schema ([0c2460b](https://github.com/durgesh0505/chiggi_morphe_patches/commit/0c2460bab9a0000f25d0077b3a02abf7cde8eaae))
+
 ## [1.27.2](https://github.com/durgesh0505/chiggi_morphe_patches/compare/v1.27.1...v1.27.2) (2026-11-09)
 
 ### 🐛 Bug Fixes
