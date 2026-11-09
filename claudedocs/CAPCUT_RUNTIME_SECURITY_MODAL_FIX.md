@@ -40,3 +40,11 @@ Fresh logcat after every prior hook was present captured the authoritative URL:
 The JNI path launches this raw URL through the central Lynx opener rather than reading the patched `t0()` getter. The durable fix is therefore at `FunctionKt.j(Context, String, ...)`: if the URL contains `image_lynx_global_unsafe_pkg_modal`, report it handled and return before activity routing. This covers native, server, and Java callers without blocking unrelated Lynx pages.
 
 Device resource inspection also disproved the prior `BusinessSignDialog` hypothesis: that class contains creator-agreement text, not the visible security notice. Remove its suppression hook to restore unrelated creator-sign behavior.
+
+## November 9 installed-build correction 2
+
+The installed APK contained the `FunctionKt.j` channel guard, but a clean relaunch still opened `DeeplinkActivity` and then `TransLynxActivity`. Logcat again identified `image_lynx_global_unsafe_pkg_modal`. This proves the native caller constructs and launches the deep-link intent directly, bypassing `FunctionKt.j` too.
+
+The earliest remaining Java boundary is `DeeplinkActivity.onCreate(Bundle)`, which receives the raw `capcut://main/...` intent before routing. Add a narrow intent-data guard: if the data string contains `image_lynx_global_unsafe_pkg_modal`, run the required activity lifecycle/super-onCreate calls, finish the activity, and return before deep-link routing. Calling `finish()` and returning before `super.onCreate()` would cause Android `SuperNotCalledException`, so the guarded path must preserve that lifecycle contract. Preserve every other deep link.
+
+The final injected sequence was compiled with the target's real 20-register layout. It uses `move-object/from16` for high parameter registers, preserves `ActivityLifecycleHook.a` and `BaseInfraActivity.onCreate`, then finishes only the unsafe channel. Morphe InlineSmaliCompiler produced 16 valid instructions including `INVOKE_SUPER` and `RETURN_VOID` with no register errors.

@@ -35,6 +35,13 @@ private object CentralLynxOpenFingerprint : Fingerprint(
     ),
 )
 
+private object DeeplinkActivityOnCreateFingerprint : Fingerprint(
+    definingClass = "Lcom/vega/launcher/precondition/DeeplinkActivity;",
+    name = "onCreate",
+    returnType = "V",
+    parameters = listOf("Landroid/os/Bundle;"),
+)
+
 private const val UNSAFE_MODAL_URL =
     "capcut://main/lynx?channel=image_lynx_global_unsafe_pkg_modal&bundle=template.js&hide_loading=0&hide_nav_bar=1&immersive_mode=1&enter_mode=modal&present_style=over_full_screen&loading_bgcolor=00000000&dynamic=3&exit_mode=none"
 
@@ -97,6 +104,29 @@ val capcutBypassUnsafeModalPatch = bytecodePatch(
             """,
         )
 
-        println("[Bypass Unsafe Package Modal] Blocked unsafe modal URLs centrally, rewrote ${matches.size} default(s), and forced the runtime schema to the template portal.")
+        DeeplinkActivityOnCreateFingerprint.method.addInstructions(
+            0,
+            """
+                move-object/from16 v2, p0
+                invoke-virtual {v2}, Landroid/app/Activity;->getIntent()Landroid/content/Intent;
+                move-result-object v0
+                if-eqz v0, :continue_deeplink
+                invoke-virtual {v0}, Landroid/content/Intent;->getDataString()Ljava/lang/String;
+                move-result-object v0
+                if-eqz v0, :continue_deeplink
+                const-string v1, "image_lynx_global_unsafe_pkg_modal"
+                invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+                move-result v0
+                if-eqz v0, :continue_deeplink
+                move-object/from16 v3, p1
+                invoke-static {v2, v3}, Lcom/bytedance/helios/statichook/lifecycle/ActivityLifecycleHook;->a(Landroid/app/Activity;Landroid/os/Bundle;)V
+                invoke-super {v2, v3}, Lcom/vega/ui/start/BaseInfraActivity;->onCreate(Landroid/os/Bundle;)V
+                invoke-virtual {v2}, Landroid/app/Activity;->finish()V
+                return-void
+                :continue_deeplink
+            """,
+        )
+
+        println("[Bypass Unsafe Package Modal] Blocked unsafe modal URLs at central and deep-link routing, rewrote ${matches.size} default(s), and forced the runtime schema to the template portal.")
     }
 }
