@@ -151,7 +151,7 @@ Native gates that Java hooks may not cover (device test required): `com.lemon.ed
 | 4 | Unlock Premium Templates | On | `x6`,`A6`→true; `C6`→false; `TemplateBreakDomain.e`→false; `LoginChecker.e`→pass |
 | 5 | Bypass Signature Check | On | Signature/integrity hooks plus persist-free verdict dependency, cracking-dialog suppression, and removal of the JNI cracking interceptor from both network-init lists |
 | 6 | Persist-free CrackingInterceptor (`c(I)V` stub) | Off when selected alone; automatically included by Bypass Signature Check | 1 |
-| 7 | Bypass Unsafe Package Modal | On | Central `FunctionKt.j` unsafe-channel guard plus constructor fallback and runtime schema getter |
+| 7 | Bypass Unsafe Package Modal | On | `DeeplinkActivity.onCreate` and central `FunctionKt.j` channel guards plus constructor/runtime schema fallbacks |
 | 8 | Bypass GeoBlock | On | 5 |
 | 9 | Bypass Effects Region | On | 3 (`windows`, did `0`) |
 | 10 | Spoof Region to USA | On (operator choice) | `FlavorLocale` b/c/d/e/g/k, `CarrierEntry$Companion` d–o (12), `LocaleEntry$Companion.b` |
